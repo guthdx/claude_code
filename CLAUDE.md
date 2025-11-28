@@ -19,6 +19,69 @@ See [SECURITY_WARNING.md](SECURITY_WARNING.md) for complete details and verifica
 
 ---
 
+## First-Time Setup on New Machine
+
+**Tested and verified on M1 MacBook Pro (2025-11-27)**
+
+### Prerequisites
+
+```bash
+# Required installations
+✓ Claude Code (from https://claude.ai/code)
+✓ Node.js 25.1.0+ (for MCP servers via npx)
+✓ Git 2.50+
+○ Docker Desktop (optional, for Docker MCP)
+```
+
+### Step-by-Step Setup
+
+**1. Clone Repository (use SSH to avoid token exposure):**
+```bash
+git clone git@github.com:guthdx/claude_code.git ~/terminal_projects/claude_code
+cd ~/terminal_projects/claude_code
+```
+
+**⚠️ DO NOT USE:** `git clone https://TOKEN@github.com/...` - This exposes your token in git config!
+
+**2. Set Environment Variables:**
+```bash
+# Create or edit ~/.zshrc
+nano ~/.zshrc
+
+# Add these lines:
+export PERPLEXITY_API_KEY="your-key-here"
+export GITHUB_TOKEN="your-token-here"
+
+# Save (Ctrl+O, Enter, Ctrl+X) and reload
+source ~/.zshrc
+```
+
+**3. Open Claude Code and Auto-Configure MCP:**
+```bash
+cd ~/terminal_projects/claude_code
+claude
+```
+
+Then in Claude Code, say:
+> "I just cloned this repository. Please read CLAUDE.md and SESSION_STATE.md, then set up all 5 MCP servers. The environment variables are already set."
+
+**4. Verify Setup:**
+```bash
+claude mcp list
+# Should show 5 servers: perplexity, memory, filesystem, docker, github
+```
+
+**Setup Time:** ~15 minutes (tested and verified)
+
+**What Gets Auto-Configured:**
+- ✅ MCP servers from `.mcp.json`
+- ✅ Environment variable substitution
+- ✅ npm package installation via npx
+- ❌ Setting environment variables (manual)
+- ❌ Installing Docker Desktop (manual)
+
+---
+
 ## Repository Overview
 
 This is a multi-project workspace containing development tools, infrastructure projects, and cultural/language applications. All projects are self-hosted on Iyeska infrastructure with a focus on data sovereignty and tribal contexts.
