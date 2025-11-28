@@ -1,0 +1,16 @@
+name = "iyeska-status-checker"
+main = "status-checker.js"
+compatibility_date = "2024-11-20"
+
+# Scheduled trigger - runs every 10 minutes
+[triggers]
+crons = ["*/10 * * * *"]
+
+# D1 Database binding
+[[d1_databases]]
+binding = "DB"
+database_name = "iyeska-status-db"
+database_id = "a59a40ac-47a9-41cf-9be4-d4e3f383360f"
+
+# Environment variables (will be set via wrangler secret)
+# N8N_WEBHOOK_URL = "https://n8n.iyeska.net/webhook/status-alerts"

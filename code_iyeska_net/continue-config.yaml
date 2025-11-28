@@ -1,0 +1,99 @@
+name: Remote Ollama via code.iyeska.net
+version: 1.0.0
+schema: v1
+models:
+  - name: Qwen2.5-Coder 32B
+    provider: ollama
+    model: qwen2.5-coder:32b
+    apiBase: https://code.iyeska.net
+    contextLength: 32768
+    completionOptions:
+      num_ctx: 32768
+      temperature: 0.2
+      num_predict: 2048
+    roles:
+      - chat
+      - edit
+      - apply
+  - name: Qwen2.5-Coder 14B
+    provider: ollama
+    model: qwen2.5-coder:14b
+    apiBase: https://code.iyeska.net
+    contextLength: 32768
+    completionOptions:
+      num_ctx: 32768
+      temperature: 0.2
+      num_predict: 2048
+    roles:
+      - chat
+      - edit
+      - apply
+  - name: DeepSeek-R1 32B
+    provider: ollama
+    model: deepseek-r1:32b
+    apiBase: https://code.iyeska.net
+    contextLength: 32768
+    completionOptions:
+      num_ctx: 32768
+      temperature: 0.3
+      num_predict: 4096
+    roles:
+      - chat
+      - edit
+  - name: DeepSeek-R1 14B
+    provider: ollama
+    model: deepseek-r1:14b
+    apiBase: https://code.iyeska.net
+    contextLength: 32768
+    completionOptions:
+      num_ctx: 32768
+      temperature: 0.3
+      num_predict: 4096
+    roles:
+      - chat
+      - edit
+  - name: Llama 3.3
+    provider: ollama
+    model: llama3.3:latest
+    apiBase: https://code.iyeska.net
+    contextLength: 131072
+    completionOptions:
+      num_ctx: 32768
+      temperature: 0.3
+      num_predict: 2048
+    roles:
+      - chat
+      - edit
+  - name: Phi4
+    provider: ollama
+    model: phi4:latest
+    apiBase: https://code.iyeska.net
+    contextLength: 16384
+    completionOptions:
+      num_ctx: 16384
+      temperature: 0.3
+      num_predict: 2048
+    roles:
+      - chat
+  - name: DeepSeek-R1 7B
+    provider: ollama
+    model: deepseek-r1:latest
+    apiBase: https://code.iyeska.net
+    contextLength: 32768
+    completionOptions:
+      num_ctx: 32768
+      temperature: 0.3
+      num_predict: 2048
+    roles:
+      - chat
+  - name: Qwen2.5-Coder 14B Autocomplete
+    provider: ollama
+    model: qwen2.5-coder:14b
+    apiBase: https://code.iyeska.net
+    contextLength: 32768
+    completionOptions:
+      num_ctx: 8192
+      temperature: 0.2
+      num_predict: 128
+    roles:
+      - autocomplete

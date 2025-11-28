@@ -1,0 +1,14 @@
+name = "iyeska-status-api"
+main = "status-api.js"
+compatibility_date = "2024-11-20"
+
+# Custom domain route
+routes = [
+  { pattern = "status.iyeska.net/api/*", zone_name = "iyeska.net" }
+]
+
+# D1 Database binding
+[[d1_databases]]
+binding = "DB"
+database_name = "iyeska-status-db"
+database_id = "a59a40ac-47a9-41cf-9be4-d4e3f383360f"

@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Iyeska Infrastructure Dashboard</title>
+  <link rel="icon" type="image/png" href="images/favicon.png">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    :root {
+      --iyeska-terracotta: #CD6F4D;
+      --iyeska-slate: #56738C;
+      --iyeska-charcoal: #333333;
+      --iyeska-off-white: #888888;
+    }
+
+    .status-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      display: inline-block;
+      margin-right: 8px;
+    }
+    .status-online { background-color: #10b981; box-shadow: 0 0 8px #10b981; }
+    .status-offline { background-color: var(--iyeska-terracotta); box-shadow: 0 0 8px var(--iyeska-terracotta); }
+    .status-degraded { background-color: #f59e0b; box-shadow: 0 0 8px #f59e0b; }
+    .status-checking { background-color: #6b7280; animation: pulse 2s infinite; }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.5; }
+    }
+
+    .service-card {
+      transition: all 0.2s ease;
+      border-color: rgba(86, 115, 140, 0.2) !important;
+    }
+    .service-card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 25px rgba(205, 111, 77, 0.15);
+      border-color: rgba(86, 115, 140, 0.4) !important;
+    }
+
+    .metric {
+      font-size: 0.75rem;
+      color: var(--iyeska-off-white);
+    }
+
+    header {
+      border-bottom-color: rgba(86, 115, 140, 0.3) !important;
+    }
+
+    footer {
+      border-top-color: rgba(86, 115, 140, 0.3) !important;
+    }
+  </style>
+</head>
+<body class="bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 min-h-screen text-white">
+
+  <!-- Header -->
+  <header class="bg-gray-800/50 backdrop-blur-sm border-b border-gray-700 sticky top-0 z-50">
+    <div class="container mx-auto px-6 py-4">
+      <div class="flex justify-between items-center">
+        <div class="flex items-center gap-4">
+          <img src="images/iyeska-logo.png" alt="Iyeska Logo" class="h-12 object-contain">
+          <div>
+            <h1 class="text-2xl font-bold">Iyeska Infrastructure</h1>
+            <p class="text-sm text-gray-400">Real-time monitoring dashboard</p>
+          </div>
+        </div>
+        <div class="text-right">
+          <div id="last-check" class="text-sm text-gray-400">Checking status...</div>
+          <div id="overall-status" class="text-sm font-semibold">
+            <span class="status-dot status-checking"></span>
+            Initializing...
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Dashboard -->
+  <main class="container mx-auto px-6 py-8">
+
+    <!-- NativeBio Section -->
+    <section class="mb-8">
+      <h2 class="text-xl font-bold mb-4 flex items-center gap-3">
+        <img src="images/nativebio-logo.png" alt="NativeBio" class="h-8 object-contain">
+        <span class="status-dot status-checking" id="status-nativebio"></span>
+        NativeBio
+      </h2>
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+
+        <div class="service-card bg-gray-800 rounded-lg p-4 border border-gray-700">
+          <div class="flex items-center justify-between mb-2">
+            <h3 class="font-semibold">Proxmox 8 VE</h3>
+            <span class="status-dot status-checking" data-service="nativebio-proxmox"></span>
+          </div>
+          <a href="http://68.168.225.3:8006" target="_blank"
+             class="text-blue-400 hover:text-blue-300 text-sm block mb-2">
+            http://68.168.225.3:8006
+          </a>
+          <div class="metric flex justify-between">
+            <span>Uptime: <span data-uptime="nativebio-proxmox">--</span></span>
+            <span>Response: <span data-response="nativebio-proxmox">--</span></span>
+          </div>
+        </div>
+
+        <div class="service-card bg-gray-800 rounded-lg p-4 border border-gray-700">
+          <div class="flex items-center justify-between mb-2">
+            <h3 class="font-semibold">ProxmoxTDR Data VM</h3>
+            <span class="status-dot status-checking" data-service="nativebio-tdr-vm"></span>
+          </div>
+          <a href="ssh://nativebiotdr@68.168.225.3:2223"
+             class="text-blue-400 hover:text-blue-300 text-sm block mb-2 font-mono text-xs">
+            ssh nativebiotdr@68.168.225.3:2223
+          </a>
+          <div class="metric flex justify-between">
+            <span>Uptime: <span data-uptime="nativebio-tdr-vm">--</span></span>
+            <span>SSH: <span data-response="nativebio-tdr-vm">--</span></span>
+          </div>
+        </div>
+
+        <div class="service-card bg-gray-800 rounded-lg p-4 border border-gray-700">
+          <div class="flex items-center justify-between mb-2">
+            <h3 class="font-semibold">Ubuntu CLI VM</h3>
+            <span class="status-dot status-checking" data-service="nativebio-ubuntu-cli"></span>
+          </div>
+          <a href="ssh://guthdx@68.168.225.3:2224"
+             class="text-blue-400 hover:text-blue-300 text-sm block mb-2 font-mono text-xs">
+            ssh guthdx@68.168.225.3:2224
+          </a>
+          <div class="metric flex justify-between">
+            <span>Uptime: <span data-uptime="nativebio-ubuntu-cli">--</span></span>
+            <span>SSH: <span data-response="nativebio-ubuntu-cli">--</span></span>
+          </div>
+        </div>
+
+        <div class="service-card bg-gray-800 rounded-lg p-4 border border-gray-700">
+          <div class="flex items-center justify-between mb-2">
+            <h3 class="font-semibold">Ubuntu Desktop VM</h3>
+            <span class="status-dot status-checking" data-service="nativebio-ubuntu-desktop"></span>
+          </div>
+          <a href="ssh://nativebiotdr@68.168.225.3:2226"
+             class="text-blue-400 hover:text-blue-300 text-sm block mb-2 font-mono text-xs">
+            ssh nativebiotdr@68.168.225.3:2226
+          </a>
+          <div class="metric flex justify-between">
+            <span>Uptime: <span data-uptime="nativebio-ubuntu-desktop">--</span></span>
+            <span>SSH: <span data-response="nativebio-ubuntu-desktop">--</span></span>
+          </div>
+        </div>
+
+        <div class="service-card bg-gray-800 rounded-lg p-4 border border-gray-700">
+          <div class="flex items-center justify-between mb-2">
+            <h3 class="font-semibold">REDCap Server</h3>
+            <span class="status-dot status-checking" data-service="nativebio-redcap"></span>
+          </div>
+          <a href="ssh://redcap@68.168.225.3:57625"
+             class="text-blue-400 hover:text-blue-300 text-sm block mb-2 font-mono text-xs">
+            ssh redcap@68.168.225.3:57625
+          </a>
+          <div class="metric flex justify-between">
+            <span>Uptime: <span data-uptime="nativebio-redcap">--</span></span>
+            <span>SSH: <span data-response="nativebio-redcap">--</span></span>
+          </div>
+        </div>
+
+        <div class="service-card bg-gray-800 rounded-lg p-4 border border-gray-700">
+          <div class="flex items-center justify-between mb-2">
+            <h3 class="font-semibold">pfSense</h3>
+            <span class="status-dot status-checking" data-service="nativebio-pfsense"></span>
+          </div>
+          <a href="http://68.168.225.3:81" target="_blank"
+             class="text-blue-400 hover:text-blue-300 text-sm block mb-2">
+            http://68.168.225.3:81
+          </a>
+          <div class="metric flex justify-between">
+            <span>Uptime: <span data-uptime="nativebio-pfsense">--</span></span>
+            <span>Response: <span data-response="nativebio-pfsense">--</span></span>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- TDR Section -->
+    <section class="mb-8">
+      <h2 class="text-xl font-bold mb-4 flex items-center gap-3">
+        <img src="images/tdr-logo.png" alt="TDR" class="h-8 object-contain">
+        <span class="status-dot status-checking" id="status-tdr"></span>
+        TDR
+      </h2>
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+
+        <div class="service-card bg-gray-800 rounded-lg p-4 border border-gray-700">
+          <div class="flex items-center justify-between mb-2">
+            <h3 class="font-semibold">Proxmox 9 VE</h3>
+            <span class="status-dot status-checking" data-service="tdr-proxmox"></span>
+          </div>
+          <a href="http://68.168.225.3:8007" target="_blank"
+             class="text-blue-400 hover:text-blue-300 text-sm block mb-2">
+            http://68.168.225.3:8007
+          </a>
+          <div class="metric flex justify-between">
+            <span>Uptime: <span data-uptime="tdr-proxmox">--</span></span>
+            <span>Response: <span data-response="tdr-proxmox">--</span></span>
+          </div>
+        </div>
+
+        <div class="service-card bg-gray-800 rounded-lg p-4 border border-gray-700">
+          <div class="flex items-center justify-between mb-2">
+            <h3 class="font-semibold">Data VM</h3>
+            <span class="status-dot status-checking" data-service="tdr-data-vm"></span>
+          </div>
+          <a href="ssh://nativebio@68.168.225.3:2222"
+             class="text-blue-400 hover:text-blue-300 text-sm block mb-2 font-mono text-xs">
+            ssh nativebio@68.168.225.3:2222
+          </a>
+          <div class="metric flex justify-between">
+            <span>Uptime: <span data-uptime="tdr-data-vm">--</span></span>
+            <span>SSH: <span data-response="tdr-data-vm">--</span></span>
+          </div>
+        </div>
+
+        <div class="service-card bg-gray-800 rounded-lg p-4 border border-gray-700">
+          <div class="flex items-center justify-between mb-2">
+            <h3 class="font-semibold">Data Backup VM</h3>
+            <span class="status-dot status-checking" data-service="tdr-backup-vm"></span>
+          </div>
+          <a href="ssh://nativebio@68.168.225.3:2227"
+             class="text-blue-400 hover:text-blue-300 text-sm block mb-2 font-mono text-xs">
+            ssh nativebio@68.168.225.3:2227
+          </a>
+          <div class="metric flex justify-between">
+            <span>Uptime: <span data-uptime="tdr-backup-vm">--</span></span>
+            <span>SSH: <span data-response="tdr-backup-vm">--</span></span>
+          </div>
+        </div>
+
+        <div class="service-card bg-gray-800 rounded-lg p-4 border border-gray-700">
+          <div class="flex items-center justify-between mb-2">
+            <h3 class="font-semibold">Portal VM</h3>
+            <span class="status-dot status-checking" data-service="tdr-portal-vm"></span>
+          </div>
+          <a href="ssh://nativebio@68.168.225.3:2228"
+             class="text-blue-400 hover:text-blue-300 text-sm block mb-2 font-mono text-xs">
+            ssh nativebio@68.168.225.3:2228
+          </a>
+          <div class="metric flex justify-between">
+            <span>Uptime: <span data-uptime="tdr-portal-vm">--</span></span>
+            <span>SSH: <span data-response="tdr-portal-vm">--</span></span>
+          </div>
+        </div>
+
+        <div class="service-card bg-gray-800 rounded-lg p-4 border border-gray-700">
+          <div class="flex items-center justify-between mb-2">
+            <h3 class="font-semibold">NBDC Website VM</h3>
+            <span class="status-dot status-checking" data-service="tdr-website-vm"></span>
+          </div>
+          <a href="ssh://nativebio@68.168.225.3:2229"
+             class="text-blue-400 hover:text-blue-300 text-sm block mb-2 font-mono text-xs">
+            ssh nativebio@68.168.225.3:2229
+          </a>
+          <div class="metric flex justify-between">
+            <span>Uptime: <span data-uptime="tdr-website-vm">--</span></span>
+            <span>SSH: <span data-response="tdr-website-vm">--</span></span>
+          </div>
+        </div>
+
+        <div class="service-card bg-gray-800 rounded-lg p-4 border border-gray-700">
+          <div class="flex items-center justify-between mb-2">
+            <h3 class="font-semibold">Command Line VM</h3>
+            <span class="status-dot status-checking" data-service="tdr-cli-vm"></span>
+          </div>
+          <a href="ssh://nativebio@68.168.225.3:2230"
+             class="text-blue-400 hover:text-blue-300 text-sm block mb-2 font-mono text-xs">
+            ssh nativebio@68.168.225.3:2230
+          </a>
+          <div class="metric flex justify-between">
+            <span>Uptime: <span data-uptime="tdr-cli-vm">--</span></span>
+            <span>SSH: <span data-response="tdr-cli-vm">--</span></span>
+          </div>
+        </div>
+
+        <div class="service-card bg-gray-800 rounded-lg p-4 border border-gray-700">
+          <div class="flex items-center justify-between mb-2">
+            <h3 class="font-semibold">Desktop GUI VM</h3>
+            <span class="status-dot status-checking" data-service="tdr-desktop-vm"></span>
+          </div>
+          <a href="ssh://nativebio@68.168.225.3:2231"
+             class="text-blue-400 hover:text-blue-300 text-sm block mb-2 font-mono text-xs">
+            ssh nativebio@68.168.225.3:2231
+          </a>
+          <div class="metric flex justify-between">
+            <span>Uptime: <span data-uptime="tdr-desktop-vm">--</span></span>
+            <span>SSH: <span data-response="tdr-desktop-vm">--</span></span>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- Missouri Breaks Section -->
+    <section class="mb-8">
+      <h2 class="text-xl font-bold mb-4 flex items-center gap-3">
+        <img src="images/mbiri-logo.png" alt="Missouri Breaks" class="h-8 object-contain">
+        <span class="status-dot status-checking" id="status-mbiri"></span>
+        Missouri Breaks
+      </h2>
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+
+        <div class="service-card bg-gray-800 rounded-lg p-4 border border-gray-700">
+          <div class="flex items-center justify-between mb-2">
+            <h3 class="font-semibold">mbiri.net External</h3>
+            <span class="status-dot status-checking" data-service="mbiri-external"></span>
+          </div>
+          <a href="ssh://guthdx@68.168.224.236:2222"
+             class="text-blue-400 hover:text-blue-300 text-sm block mb-2 font-mono text-xs">
+            ssh guthdx@68.168.224.236:2222
+          </a>
+          <div class="metric flex justify-between">
+            <span>Uptime: <span data-uptime="mbiri-external">--</span></span>
+            <span>SSH: <span data-response="mbiri-external">--</span></span>
+          </div>
+        </div>
+
+        <div class="service-card bg-gray-800 rounded-lg p-4 border border-gray-700">
+          <div class="flex items-center justify-between mb-2">
+            <h3 class="font-semibold">pfSense External</h3>
+            <span class="status-dot status-checking" data-service="mbiri-pfsense"></span>
+          </div>
+          <a href="http://68.168.224.236" target="_blank"
+             class="text-blue-400 hover:text-blue-300 text-sm block mb-2">
+            http://68.168.224.236
+          </a>
+          <div class="metric flex justify-between">
+            <span>Uptime: <span data-uptime="mbiri-pfsense">--</span></span>
+            <span>Response: <span data-response="mbiri-pfsense">--</span></span>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- Iyeska.net HQ Section -->
+    <section class="mb-8">
+      <h2 class="text-xl font-bold mb-4 flex items-center gap-3">
+        <img src="images/iyeska-logo.png" alt="Iyeska" class="h-8 object-contain">
+        <span class="status-dot status-checking" id="status-iyeska"></span>
+        Iyeska.net HQ
+      </h2>
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+
+        <div class="service-card bg-gray-800 rounded-lg p-4 border border-gray-700">
+          <div class="flex items-center justify-between mb-2">
+            <h3 class="font-semibold">Main Server</h3>
+            <span class="status-dot status-checking" data-service="iyeska-main"></span>
+          </div>
+          <a href="ssh://guthdx@68.168.225.52:2022"
+             class="text-blue-400 hover:text-blue-300 text-sm block mb-2 font-mono text-xs">
+            ssh guthdx@68.168.225.52:2022
+          </a>
+          <div class="metric flex justify-between">
+            <span>Uptime: <span data-uptime="iyeska-main">--</span></span>
+            <span>SSH: <span data-response="iyeska-main">--</span></span>
+          </div>
+          <div class="text-xs text-gray-500 mt-2">
+            Hosts: n8n, wowasi, netbird
+          </div>
+        </div>
+
+        <div class="service-card bg-gray-800 rounded-lg p-4 border border-gray-700">
+          <div class="flex items-center justify-between mb-2">
+            <h3 class="font-semibold">n8n Automation</h3>
+            <span class="status-dot status-checking" data-service="iyeska-n8n"></span>
+          </div>
+          <a href="https://n8n.iyeska.net" target="_blank"
+             class="text-blue-400 hover:text-blue-300 text-sm block mb-2">
+            https://n8n.iyeska.net
+          </a>
+          <div class="metric flex justify-between">
+            <span>Uptime: <span data-uptime="iyeska-n8n">--</span></span>
+            <span>Response: <span data-response="iyeska-n8n">--</span></span>
+          </div>
+        </div>
+
+        <div class="service-card bg-gray-800 rounded-lg p-4 border border-gray-700">
+          <div class="flex items-center justify-between mb-2">
+            <h3 class="font-semibold">Wowasi API</h3>
+            <span class="status-dot status-checking" data-service="iyeska-wowasi"></span>
+          </div>
+          <a href="https://wowasi.iyeska.net" target="_blank"
+             class="text-blue-400 hover:text-blue-300 text-sm block mb-2">
+            https://wowasi.iyeska.net
+          </a>
+          <div class="metric flex justify-between">
+            <span>Uptime: <span data-uptime="iyeska-wowasi">--</span></span>
+            <span>Response: <span data-response="iyeska-wowasi">--</span></span>
+          </div>
+        </div>
+
+        <div class="service-card bg-gray-800 rounded-lg p-4 border border-gray-700">
+          <div class="flex items-center justify-between mb-2">
+            <h3 class="font-semibold">DellBuntu Laptop</h3>
+            <span class="status-dot status-checking" data-service="iyeska-laptop"></span>
+          </div>
+          <a href="ssh://guthdx@68.168.225.52:2023"
+             class="text-blue-400 hover:text-blue-300 text-sm block mb-2 font-mono text-xs">
+            ssh guthdx@68.168.225.52:2023
+          </a>
+          <div class="metric flex justify-between">
+            <span>Uptime: <span data-uptime="iyeska-laptop">--</span></span>
+            <span>SSH: <span data-response="iyeska-laptop">--</span></span>
+          </div>
+        </div>
+
+        <div class="service-card bg-gray-800 rounded-lg p-4 border border-gray-700">
+          <div class="flex items-center justify-between mb-2">
+            <h3 class="font-semibold">Raspberry Pi NAS</h3>
+            <span class="status-dot status-checking" data-service="iyeska-pi"></span>
+          </div>
+          <a href="ssh://piadmin@68.168.225.52:2024"
+             class="text-blue-400 hover:text-blue-300 text-sm block mb-2 font-mono text-xs">
+            ssh piadmin@68.168.225.52:2024
+          </a>
+          <div class="metric flex justify-between">
+            <span>Uptime: <span data-uptime="iyeska-pi">--</span></span>
+            <span>SSH: <span data-response="iyeska-pi">--</span></span>
+          </div>
+        </div>
+
+        <div class="service-card bg-gray-800 rounded-lg p-4 border border-gray-700">
+          <div class="flex items-center justify-between mb-2">
+            <h3 class="font-semibold">pfSense External</h3>
+            <span class="status-dot status-checking" data-service="iyeska-pfsense"></span>
+          </div>
+          <a href="http://68.168.225.52" target="_blank"
+             class="text-blue-400 hover:text-blue-300 text-sm block mb-2">
+            http://68.168.225.52
+          </a>
+          <div class="metric flex justify-between">
+            <span>Uptime: <span data-uptime="iyeska-pfsense">--</span></span>
+            <span>Response: <span data-response="iyeska-pfsense">--</span></span>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Footer -->
+  <footer class="bg-gray-800/50 backdrop-blur-sm border-t border-gray-700 mt-12">
+    <div class="container mx-auto px-6 py-4 text-center text-sm text-gray-400">
+      <p>Hosted on Cloudflare Pages • Status checks via Cloudflare Workers • 100% Free</p>
+      <p class="mt-1">Ensure your SSH keys are configured for passwordless login</p>
+    </div>
+  </footer>
+
+  <!-- JavaScript for status updates -->
+  <script src="app.js"></script>
+
+</body>
+</html>

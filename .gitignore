@@ -32,3 +32,6 @@ temp/
 
 # Nested git repositories (manage separately)
 wowasi_ya/
+
+# User-specific Claude Code settings
+.claude/settings.local.json
