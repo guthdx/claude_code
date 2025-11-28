@@ -34,7 +34,10 @@
       "args": [
         "-y",
         "docker-mcp"
-      ]
+      ],
+      "env": {
+        "DOCKER_MCP_LOCAL": "true"
+      }
     },
     "github": {
       "type": "stdio",
