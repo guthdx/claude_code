@@ -32,13 +32,37 @@ This workspace contains 6 independent projects:
 
 ## Quick Start
 
-### Prerequisites
+### 🚀 Automated Setup (Recommended)
+
+**One command to set up everything:**
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/guthdx/claude_code/main/setup-machine.sh | bash
+```
+
+This automated script will:
+- ✅ Check prerequisites (Node.js, Git, Claude Code)
+- ✅ Set up SSH authentication with GitHub
+- ✅ Clone the repository
+- ✅ Configure environment variables (prompts for API keys)
+- ✅ Verify MCP server configuration
+- ⏱️ **Time: ~5 minutes**
+
+See [QUICK_SETUP.md](QUICK_SETUP.md) for detailed instructions.
+
+---
+
+### 📋 Manual Setup
+
+If you prefer to set up manually:
+
+#### Prerequisites
 - Node.js 25.1.0+ and npm 11.6.2+
 - Python 3.13+ (at `/opt/local/bin/python3.13`)
 - Docker Desktop (optional, for container management)
 - Git 2.50+
 
-### Setup
+#### Setup Steps
 
 1. **Clone repository:**
    ```bash
@@ -59,6 +83,8 @@ This workspace contains 6 independent projects:
    ```
 
    MCP servers will auto-configure from `.mcp.json`
+
+See [CLAUDE.md](CLAUDE.md) for complete manual setup instructions.
 
 ## MCP Servers
 
