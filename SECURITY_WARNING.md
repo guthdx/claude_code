@@ -61,12 +61,27 @@ git config --global credential.helper osxkeychain
 
 The current token `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` should be considered **compromised**.
 
-**Action:**
+**⚠️ RECOMMENDATION: YES - Rotate the token immediately**
+
+**Rationale:**
+- Token was embedded in git remote URL on M1 machine
+- May be visible in shell history, git logs, or error messages
+- Could be exposed in any backups or snapshots of the git config
+- Best practice: assume exposed and rotate as precaution
+
+**Action Steps:**
 1. Go to https://github.com/settings/tokens
-2. Delete the current token
-3. Generate a new token with appropriate scopes
-4. Update `~/.zshrc` with the new token
-5. Use SSH going forward (no token in git config)
+2. Delete token `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`
+3. Generate new token with same scopes:
+   - `repo` (full control of private repositories)
+   - `workflow` (if using GitHub Actions)
+   - `read:org` (if needed for MCP server)
+4. Update `~/.zshrc` on all machines with new token:
+   ```bash
+   export GITHUB_TOKEN="ghp_NEW_TOKEN_HERE"
+   ```
+5. Reload shell: `source ~/.zshrc`
+6. **DO NOT** use token in git remote URLs (use SSH instead)
 
 ### 2. Check for Token Exposure
 
@@ -103,11 +118,19 @@ export GITHUB_TOKEN="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"
 
 After fixing, verify:
 
+### Main Mac (guthdx) - COMPLETED:
+- [✅] Git remote uses SSH: `git remote -v` shows `git@github.com:guthdx/claude_code.git`
+- [✅] No token in git config: Verified clean
+- [✅] SSH authentication works: `ssh -T git@github.com` successful
+- [✅] Can pull/push without token: Tested successfully
+- [⚠️] Old token rotation: PENDING - User action required
+
+### M1 MacBook Pro - PENDING:
 - [ ] Git remote uses SSH: `git remote -v` shows `git@github.com:...`
 - [ ] No token in git config: `git config --list | grep -i github`
 - [ ] SSH authentication works: `ssh -T git@github.com`
 - [ ] Can push without token in URL: `git push origin main`
-- [ ] Old token rotated at https://github.com/settings/tokens
+- [ ] Updated status table in this file
 
 ---
 
@@ -115,8 +138,8 @@ After fixing, verify:
 
 | Machine | Issue Fixed? | Method Used | Verified |
 |---------|-------------|-------------|----------|
-| M1 MacBook Pro (current) | ❌ NO | N/A | N/A |
-| M4 MacBook Pro | ⚠️ PENDING | TBD | TBD |
+| M1 MacBook Pro | ⚠️ REQUIRES FIX | See M1 Instructions Below | ❌ |
+| Main Mac (guthdx) | ✅ YES | SSH | ✅ |
 
 **UPDATE THIS TABLE AFTER FIXING ON EACH MACHINE**
 
@@ -140,5 +163,64 @@ After fixing, verify:
 
 ---
 
-**Last Updated**: 2025-11-27 by Claude Code (M1 MacBook Pro)
-**Next Review**: Immediately upon opening this repository on any machine
+## 🔧 M1 MacBook Pro - Specific Fix Instructions
+
+**CRITICAL**: The M1 MacBook Pro has the token embedded in the git remote URL.
+
+### Immediate Steps to Run on M1:
+
+```bash
+# 1. Navigate to repository
+cd /Users/guthdx/terminal_projects/claude_code
+
+# 2. Check current remote (should show token in URL)
+git remote -v
+
+# 3. Test if SSH is configured
+ssh -T git@github.com
+
+# 4. If SSH works, switch to SSH
+git remote set-url origin git@github.com:guthdx/claude_code.git
+
+# 5. Verify change
+git remote -v
+# Should now show: git@github.com:guthdx/claude_code.git
+
+# 6. Test git operations
+git fetch --dry-run
+
+# 7. Update status in SECURITY_WARNING.md
+# Change M1 MacBook Pro row to: ✅ YES | SSH | ✅
+
+# 8. Commit and push
+git add SECURITY_WARNING.md
+git commit -m "Security: Fixed token exposure on M1"
+git push
+```
+
+### If SSH Doesn't Work on M1:
+
+```bash
+# Alternative: Use credential helper instead
+git remote set-url origin https://github.com/guthdx/claude_code.git
+git config --global credential.helper osxkeychain
+
+# Next push will prompt for credentials
+# Username: guthdx
+# Password: (use a new token, NOT the exposed one)
+```
+
+### Verification Checklist for M1:
+
+- [ ] `git remote -v` shows NO token in URL
+- [ ] `git config --list | grep url` shows NO token
+- [ ] `cat .git/config` shows NO token
+- [ ] Test `git fetch` works successfully
+- [ ] Test `git push` works successfully
+- [ ] Update status table in this file
+- [ ] Commit changes to this file
+
+---
+
+**Last Updated**: 2025-11-27 by Claude Code (Main Mac - guthdx)
+**Next Review**: Immediately upon opening this repository on M1 MacBook Pro
