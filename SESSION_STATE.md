@@ -1,6 +1,25 @@
 # Session State Document
 **Last Updated**: 2025-11-27
-**Session**: Cross-Machine Sync Testing & Documentation Complete
+**Session**: All 4 Machines Operational - Cross-Machine Sync Workflow Established
+
+---
+
+## 📖 How to Use This File (For All Claude Code Instances)
+
+**Purpose:** This file is the **single source of truth** for the current state across all 4 machines.
+
+**When a user says "we just set up X" or "I fixed Y":**
+1. Read this file to understand current state
+2. Update the relevant section with new information
+3. Commit and push changes: `git add SESSION_STATE.md && git commit -m "Update: [what changed]" && git push`
+4. Other machines will pull and re-read
+
+**Key sections to check:**
+- **MCP Servers Status** - What's working on each machine
+- **Pending Tasks** - What still needs to be done
+- **Cross-Machine Sync Workflow** - How to keep machines in sync
+
+**This solves the "I don't know what happened on other machines" problem** until Tier 3 is implemented.
 
 ---
 
@@ -63,29 +82,53 @@ See `SECURITY_WARNING.md` for complete security audit and next steps.
 
 ---
 
-## 📊 MCP Servers Status
+## 📊 MCP Servers Status - All Machines
+
+**Last Updated:** 2025-11-27 (User confirmed all 4 machines operational)
 
 ### Main Mac (guthdx)
 
-| Server | Package | Status | API Key Location |
-|--------|---------|--------|------------------|
-| perplexity | @perplexity-ai/mcp-server | ✅ Connected | ~/.zshrc: PERPLEXITY_API_KEY |
-| memory | @modelcontextprotocol/server-memory | ✅ Connected | None required |
-| filesystem | @modelcontextprotocol/server-filesystem | ✅ Connected | None required |
-| docker | docker-mcp | ✅ Connected | None required |
-| github | @modelcontextprotocol/server-github | ✅ Connected | ~/.zshrc: GITHUB_TOKEN |
+| Server | Package | Status | Setup Method |
+|--------|---------|--------|--------------|
+| perplexity | @perplexity-ai/mcp-server | ✅ Connected | Manual |
+| memory | @modelcontextprotocol/server-memory | ✅ Connected | Manual |
+| filesystem | @modelcontextprotocol/server-filesystem | ✅ Connected | Manual |
+| docker | docker-mcp | ✅ Connected | Manual |
+| github | @modelcontextprotocol/server-github | ✅ Connected | Manual |
 
 ### M1 MacBook Pro
 
-| Server | Package | Status | Notes |
-|--------|---------|--------|-------|
+| Server | Package | Status | Setup Method |
+|--------|---------|--------|--------------|
 | perplexity | @perplexity-ai/mcp-server | ✅ Connected | Auto-configured |
 | memory | @modelcontextprotocol/server-memory | ✅ Connected | Auto-configured |
 | filesystem | @modelcontextprotocol/server-filesystem | ✅ Connected | Auto-configured |
-| docker | docker-mcp | ⚠️ Not Connected | Needs Docker Desktop installation |
+| docker | docker-mcp | ✅ Connected | Fixed - Docker Desktop installed |
 | github | @modelcontextprotocol/server-github | ✅ Connected | Auto-configured |
 
-**Verify**: `claude mcp list`
+### Mac Mini
+
+| Server | Package | Status | Setup Method |
+|--------|---------|--------|--------------|
+| perplexity | @perplexity-ai/mcp-server | ✅ Connected | Automated script |
+| memory | @modelcontextprotocol/server-memory | ✅ Connected | Automated script |
+| filesystem | @modelcontextprotocol/server-filesystem | ✅ Connected | Automated script |
+| docker | docker-mcp | ✅ Connected | Automated script |
+| github | @modelcontextprotocol/server-github | ✅ Connected | Automated script |
+
+### Ubuntu Server
+
+| Server | Package | Status | Setup Method |
+|--------|---------|--------|--------------|
+| perplexity | @perplexity-ai/mcp-server | ✅ Connected | Automated script |
+| memory | @modelcontextprotocol/server-memory | ✅ Connected | Automated script |
+| filesystem | @modelcontextprotocol/server-filesystem | ✅ Connected | Automated script |
+| docker | docker-mcp | ✅ Connected | Automated script |
+| github | @modelcontextprotocol/server-github | ✅ Connected | Automated script |
+
+**All Machines Operational:** ✅ 4/4 machines with all 5 MCP servers connected
+
+**Verify on any machine**: `claude mcp list`
 
 **Configuration Files**:
 - `~/.claude.json` (user-level, contains secrets)
@@ -95,39 +138,35 @@ See `SECURITY_WARNING.md` for complete security audit and next steps.
 
 ## 🚧 Pending Tasks
 
-### HIGH PRIORITY (M1 MacBook Pro)
+### HIGH PRIORITY
 
-1. **Install Docker Desktop on M1** (10 minutes)
-   - Download from https://www.docker.com/products/docker-desktop
-   - Install and start Docker Desktop
-   - Verify with `docker ps`
-   - Then test Docker MCP server connection
-
-2. **Fix GitHub Token Security on M1** (5 minutes)
-   - See `M1_FIX_INSTRUCTIONS.md` for step-by-step guide
-   - Quick fix: `git remote set-url origin git@github.com:guthdx/claude_code.git`
-   - Update status table in `SECURITY_WARNING.md`
-   - Commit and push security fix
-
-3. **Rotate Exposed GitHub Token** (5 minutes)
+1. **Rotate Exposed GitHub Token** (10 minutes) - RECOMMENDED
    - Go to https://github.com/settings/tokens
    - Delete token `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`
    - Generate new token with same scopes (repo, workflow, read:org)
-   - Update `~/dotfiles/secrets.env` on both machines
-   - Update `~/.zshrc` on both machines
-   - Test MCP servers still connect
+   - Update on ALL 4 machines:
+     - `~/dotfiles/secrets.env`
+     - `~/.zshrc` or `~/.bashrc`
+   - Test MCP servers still connect on each machine
+   - See `SECURITY_WARNING.md` for rationale
 
 ### MEDIUM PRIORITY
 
-4. **Implement Tier 3: Shared Memory Backend** (4-6 hours)
+2. **Implement Tier 3: Shared Memory Backend** (4-6 hours) - OPTIONAL
    - Comprehensive guide in `MEMORY_BACKEND_IMPLEMENTATION.md`
    - Recommendation: PostgreSQL + pgvector
    - Infrastructure: Use existing NetBird PostgreSQL at 192.168.11.20
    - Enables true cross-machine memory persistence
+   - **This would solve the "keeping machines in sync" problem automatically**
+
+3. **Establish Cross-Machine Sync Workflow** (5 minutes) - ONGOING
+   - When updating status on one machine, commit and push to git
+   - Other machines pull and re-read SESSION_STATE.md
+   - See "Cross-Machine Sync Workflow" section below
 
 ### LOW PRIORITY
 
-5. **Install Additional MCP Servers** (as needed)
+4. **Install Additional MCP Servers** (as needed)
    - SQLite - For status-dashboard D1 database work
    - PostgreSQL - For NetBird database management
    - Slack - Direct Slack integration for alerts
@@ -249,6 +288,89 @@ source ~/.zshrc
 **What it does**: True persistent memory across all machines using shared database
 
 **Status**: Comprehensive implementation guide complete, not yet implemented
+
+---
+
+## 🔄 Cross-Machine Sync Workflow (Without Tier 3)
+
+**The Challenge:** Each Claude Code instance has independent memory. Changes made on one machine don't automatically sync to others.
+
+**The Solution:** Use git as the "source of truth" and follow this workflow:
+
+### When You Make Changes on Any Machine
+
+**1. Update SESSION_STATE.md with current status**
+```bash
+# On the machine where you made changes (e.g., M1)
+cd ~/terminal_projects/claude_code
+
+# Ask Claude Code to update SESSION_STATE.md
+# Say: "I just fixed Docker on M1. Update SESSION_STATE.md to reflect this."
+
+# Or manually edit the file
+```
+
+**2. Commit and push the update**
+```bash
+git add SESSION_STATE.md
+git commit -m "Update: M1 Docker MCP now working"
+git push origin main
+```
+
+**3. On other machines, pull and tell Claude to re-read**
+```bash
+# On main Mac, Mac Mini, or Ubuntu Server
+cd ~/terminal_projects/claude_code
+git pull origin main
+
+# Then in Claude Code, say:
+# "Please re-read SESSION_STATE.md - there have been updates"
+```
+
+### Quick Sync Workflow
+
+**On machine where status changed:**
+```bash
+git add SESSION_STATE.md SECURITY_WARNING.md  # or whatever changed
+git commit -m "Update: [describe what changed]"
+git push
+```
+
+**On all other machines:**
+```bash
+git pull
+# Then tell Claude: "re-read SESSION_STATE.md"
+```
+
+### What to Track in SESSION_STATE.md
+
+Update this file when:
+- ✅ MCP server status changes (connected/disconnected)
+- ✅ Security issues discovered or fixed
+- ✅ New machines added to the fleet
+- ✅ Major configuration changes
+- ✅ Pending tasks completed
+- ✅ Important decisions made
+
+### Why This Works
+
+- **Single source of truth:** Git repository
+- **All machines read same docs:** CLAUDE.md, SESSION_STATE.md
+- **Manual but reliable:** Explicit sync process
+- **Tier 3 would automate this:** Shared memory = automatic sync
+
+### When to Update
+
+**Immediately after:**
+- Setting up a new machine
+- Fixing a critical issue
+- Completing a major task
+- Discovering new information
+
+**Periodically:**
+- End of work session
+- Before switching machines
+- Weekly status sync
 
 **Recommended solution**: PostgreSQL + pgvector
 
@@ -453,13 +575,12 @@ This session will be considered "complete" when:
 - [x] Security issues discovered and documented
 - [x] CLAUDE.md updated with M1 testing lessons
 
-**Current Progress**: 10/11 complete (91%)
+**Current Progress**: 11/12 complete (92%)
 
 **Remaining Tasks**:
-- M1: Install Docker Desktop
-- M1: Fix git remote security
-- Both machines: Rotate GitHub token
-- Optional: Tier 3 implementation (4-6 hours)
+- Rotate GitHub token on all 4 machines (recommended)
+- Optional: Implement Tier 3 for automatic cross-machine sync (4-6 hours)
+- Establish regular sync workflow (ongoing)
 
 ---
 
