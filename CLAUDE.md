@@ -2,6 +2,23 @@
 
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
+---
+
+## 🚨 SECURITY ALERT
+
+**READ `SECURITY_WARNING.md` IMMEDIATELY**
+
+There is a critical security issue with the GitHub token being exposed in the git remote URL. This must be fixed before continuing work.
+
+**Quick Fix:**
+```bash
+git remote set-url origin git@github.com:guthdx/claude_code.git
+```
+
+See [SECURITY_WARNING.md](SECURITY_WARNING.md) for complete details and verification.
+
+---
+
 ## Repository Overview
 
 This is a multi-project workspace containing development tools, infrastructure projects, and cultural/language applications. All projects are self-hosted on Iyeska infrastructure with a focus on data sovereignty and tribal contexts.

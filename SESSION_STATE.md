@@ -4,6 +4,21 @@
 
 ---
 
+# 🚨 CRITICAL SECURITY ALERT 🚨
+
+**READ SECURITY_WARNING.md IMMEDIATELY**
+
+The GitHub personal access token is **exposed in the git remote URL**. This is a HIGH severity security issue that requires immediate action before continuing work.
+
+**Quick Fix:**
+```bash
+git remote set-url origin git@github.com:guthdx/claude_code.git
+```
+
+See `SECURITY_WARNING.md` for complete details and verification steps.
+
+---
+
 ## 🎯 Current Status: MCP Setup & Sync Design Complete
 
 ### What We Just Accomplished (This Session)
