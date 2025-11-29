@@ -30,6 +30,7 @@ See [SECURITY_WARNING.md](SECURITY_WARNING.md) for complete details and verifica
 ✓ Claude Code (from https://claude.ai/code)
 ✓ Node.js 25.1.0+ (for MCP servers via npx)
 ✓ Git 2.50+
+✓ NetBird VPN (for Memory MCP Server access)
 ○ Docker Desktop (optional, for Docker MCP)
 ```
 
@@ -43,7 +44,24 @@ cd ~/terminal_projects/claude_code
 
 **⚠️ DO NOT USE:** `git clone https://TOKEN@github.com/...` - This exposes your token in git config!
 
-**2. Set Environment Variables:**
+**2. Set Up Memory MCP Server (Shared Memory Across Machines):**
+
+**NEW!** This repository now includes Memory MCP Server setup for cross-machine memory sync:
+
+```bash
+cd ~/terminal_projects/claude_code
+./setup-memory-mcp-client.sh
+```
+
+See `SETUP_ON_CLIENT.md` for quick instructions or `PHASE3_CLIENT_SETUP.md` for detailed docs.
+
+**What this gives you:**
+- Shared memory across all your development machines
+- Works from anywhere (home, travel, coffee shops) via NetBird VPN
+- Semantic search with BERT embeddings
+- Real-time synchronization via PostgreSQL
+
+**3. Set Environment Variables:**
 ```bash
 # Create or edit ~/.zshrc
 nano ~/.zshrc
