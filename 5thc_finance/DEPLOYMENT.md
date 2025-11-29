@@ -2,11 +2,11 @@
 
 ## Deployment Status: SUCCESS ✅
 
-**Deployed URL:** https://af2ca445.5thc-finance.pages.dev
+**Latest Deployment:** https://9831b765.5thc-finance.pages.dev
 **Production URL:** https://5thc-finance.pages.dev
-**Target URL:** https://5thc.finance (after custom domain setup)
+**Custom Domain:** https://5thc.finance (setup instructions below)
 
-**Deployed:** 2025-11-29
+**Last Deployed:** 2025-11-29
 **Cloudflare Account:** guthdx@ducheneaux.com
 **Project Name:** 5thc-finance
 
@@ -19,13 +19,18 @@ Successfully migrated the 5th C Finance coming-soon landing page from WordPress 
 - `assets/css/style.css` - Styling with brand colors (5.4KB)
 - `assets/js/main.js` - Email signup form handling (2.3KB)
 
-### Design Preserved
+### Design Features
 - **Header:** "5th C Finance" with tagline "Where innovation meets ag finance!"
 - **Hero:** "On the horizon.... 5th C coming soon"
 - **Tagline:** "Courage where credit is due"
-- **Colors:** Primary Blue (66,99,190), Accent Orange (234,147,116), Dark Background
-- **Background:** Mountain landscape with gradient overlay
+- **Colors:** Sunset/prairie palette extracted from background image
+  - Sunset Amber (#C68A4A)
+  - Sunset Orange (#E6A665)
+  - Warm Salmon (#DFA28C)
+  - Muted Gray (#D6D6D6)
+- **Background:** Custom mountain landscape with gradient overlay
 - **Typography:** Inter font family (Google Fonts)
+- **Animations:** Glassmorphism, gradient shifts, smooth transitions
 - **Mobile-responsive:** Optimized for all screen sizes
 
 ## Cost Comparison
@@ -48,17 +53,45 @@ Successfully migrated the 5th C Finance coming-soon landing page from WordPress 
 
 ### 1. Set Up Custom Domain (5-10 minutes)
 
-In Cloudflare dashboard:
-1. Go to: Workers & Pages → 5thc-finance → Custom domains
-2. Click "Set up a custom domain"
-3. Enter: `5thc.finance`
-4. Cloudflare will auto-configure DNS
-5. Wait 5-10 minutes for SSL cert provisioning
+**Step-by-Step Instructions:**
 
-**Note:** Domain must already be in your Cloudflare account. If not:
-- Add domain to Cloudflare DNS first
-- Update nameservers at registrar
-- Then add custom domain to Pages project
+1. **Go to Cloudflare Dashboard**
+   - Visit: https://dash.cloudflare.com
+   - Log in with guthdx@ducheneaux.com
+
+2. **Navigate to Pages Project**
+   - Click **Workers & Pages** in left sidebar
+   - Find and click **5thc-finance**
+
+3. **Add Custom Domain**
+   - Click **Custom domains** tab
+   - Click **Set up a custom domain** button
+   - Enter: `5thc.finance`
+   - Click **Continue**
+
+4. **Activate Domain**
+   - If domain is in your Cloudflare account: Click **Activate domain**
+   - Cloudflare auto-creates DNS records (CNAME to 5thc-finance.pages.dev)
+   - Wait 2-5 minutes for SSL certificate provisioning
+
+5. **Verify**
+   - Visit https://5thc.finance (may take 5-10 minutes)
+   - Optional: Add `www.5thc.finance` using same process
+
+**If domain is NOT in Cloudflare:**
+1. Go to **Websites** → **Add a site**
+2. Enter `5thc.finance` and choose Free plan
+3. Update nameservers at registrar to Cloudflare's nameservers
+4. Wait 24-48 hours for DNS propagation
+5. Then add custom domain to Pages project
+
+**DNS Records (Auto-Created):**
+```
+Type: CNAME
+Name: 5thc.finance (or @)
+Target: 5thc-finance.pages.dev
+Proxied: Yes (orange cloud)
+```
 
 ### 2. Configure Email Signup Integration
 

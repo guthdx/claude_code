@@ -6,38 +6,53 @@ This is the static landing page for 5th C Finance, deployed on Cloudflare Pages 
 
 ## Overview
 
-A coming-soon landing page featuring:
-- Clean, modern design with dark theme
-- Mountain landscape background
+A professional coming-soon landing page featuring:
+- Modern glassmorphism design with animated gradients
+- Custom mountain landscape background
 - Email signup form for launch notifications
-- Mobile-responsive layout
+- Warm sunset/prairie color palette
+- Mobile-responsive layout with smooth animations
 - Fast global CDN delivery via Cloudflare
 
 ## Design
 
-**Color Palette:**
-- Primary Blue: `rgb(66, 99, 190)`
-- Accent Orange: `rgb(234, 147, 116)`
-- Dark Background: `rgb(18, 19, 21)`
-- White Text: `rgb(255, 255, 255)`
+**Color Palette (Extracted from Background Image):**
+- Sunset Amber: `#C68A4A` (Primary)
+- Sunset Orange: `#E6A665` (Secondary)
+- Warm Salmon: `#DFA28C` (Accent/CTA)
+- Muted Gray: `#D6D6D6` (Subtext)
+- Deep Black: `#0B0B0B` (Backgrounds)
+- White: `#FFFFFF` (Headlines)
+
+**Visual Effects:**
+- Glassmorphism (frosted glass blur effects)
+- Animated gradient text (8s color shift loop)
+- Smooth fade-in animations on page load
+- Hover effects with transforms and glows
+- Subtle background zoom (20s cycle)
 
 **Typography:** Inter font family (Google Fonts)
 
-**Background:** Fixed mountain landscape with gradient overlay
+**Background:** Custom mountain landscape with multi-layer gradient overlay
 
 ## Project Structure
 
 ```
 5thc_finance/
-├── public/                 # Static site files
-│   ├── index.html         # Main landing page
+├── public/                      # Static site files
+│   ├── index.html              # Main landing page
 │   └── assets/
 │       ├── css/
-│       │   └── style.css  # Styling
-│       └── js/
-│           └── main.js    # Form handling & interactivity
-├── wrangler.toml          # Cloudflare Pages config
-└── README.md              # This file
+│       │   └── style.css       # Styling with animations
+│       ├── js/
+│       │   └── main.js         # Form handling & interactivity
+│       └── images/
+│           └── mountain-bg-dark.jpg  # Background image
+├── wrangler.toml               # Cloudflare Pages config
+├── README.md                   # This file
+├── DEPLOYMENT.md               # Deployment guide
+├── DESIGN_IMPROVEMENTS.md      # Design documentation
+└── CLAUDE.md                   # Development guide
 ```
 
 ## Local Development
@@ -96,13 +111,29 @@ wrangler pages deploy public --project-name 5thc-finance --branch preview
 
 ### Custom Domain Setup
 
-After deployment, add custom domain in Cloudflare dashboard:
+**Current Status:**
+- **Production:** https://5thc-finance.pages.dev
+- **Latest:** https://9831b765.5thc-finance.pages.dev
+- **Custom Domain:** https://5thc.finance (setup required)
 
-1. Workers & Pages → 5thc-finance → Custom domains
-2. Add domain: `5thc.finance`
-3. Cloudflare will automatically configure DNS
+**To Add Custom Domain:**
 
-**Expected URL:** https://5thc.finance
+1. **Cloudflare Dashboard**
+   - Visit: https://dash.cloudflare.com
+   - Navigate to: Workers & Pages → 5thc-finance
+
+2. **Add Domain**
+   - Click **Custom domains** tab
+   - Click **Set up a custom domain**
+   - Enter: `5thc.finance`
+   - Click **Activate domain**
+
+3. **Verify**
+   - Cloudflare auto-creates DNS records
+   - Wait 2-5 minutes for SSL certificate
+   - Visit https://5thc.finance
+
+See `DEPLOYMENT.md` for detailed instructions.
 
 ## Email Signup Integration
 
@@ -172,11 +203,15 @@ async function submitToN8n(email) {
 ## Migration from WordPress
 
 This static site replaces the WordPress installation with:
-- Zero hosting costs (Cloudflare Pages free tier)
-- Faster load times (static files, global CDN)
-- Better security (no server, no PHP, no database)
-- Easy maintenance (pure HTML/CSS/JS)
-- Version control (Git-based deployment)
+- **Zero hosting costs** - Cloudflare Pages free tier (was $10-30/month)
+- **Faster load times** - Static files, global CDN (275+ locations)
+- **Better security** - No server, no PHP, no database vulnerabilities
+- **Easy maintenance** - Pure HTML/CSS/JS, no WordPress updates
+- **Version control** - Git-based deployment with rollback capability
+- **Professional design** - Modern glassmorphism and animations
+- **Custom colors** - Palette extracted from background image
+
+**Annual Savings:** $120-360/year in hosting costs
 
 ## Support
 
