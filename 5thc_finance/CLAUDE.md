@@ -1,103 +1,117 @@
-# CLAUDE.md - 5th C Finance
+# CLAUDE.md
 
-Project-specific guidance for Claude Code when working with the 5th C Finance landing page.
+This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
+
+---
 
 ## Project Overview
 
-**Purpose:** Static coming-soon landing page for 5th C Finance deployed on Cloudflare Pages free tier.
+**5th C Finance Landing Page** - Professional coming-soon page deployed on Cloudflare Pages (100% free tier).
 
-**URL:** https://5thc.finance (after custom domain setup)
+- **Live URLs:** https://5thc.finance, https://www.5thc.finance
+- **Production:** https://5thc-finance.pages.dev
+- **Tech:** Pure HTML/CSS/JavaScript (no framework, no build step)
+- **Repository:** https://github.com/guthdx/5thc_finance
 
-**Tech Stack:**
-- Pure HTML/CSS/JavaScript (no framework)
-- Cloudflare Pages (free tier, unlimited bandwidth)
-- Wrangler CLI for deployments
-- Mobile-first responsive design
-
-## Design Specifications
-
-**Brand Colors:**
-```css
---primary-blue: rgb(66, 99, 190)    /* Main brand color */
---accent-orange: rgb(234, 147, 116) /* Tagline, CTAs */
---dark-bg: rgb(18, 19, 21)          /* Background */
---white: rgb(255, 255, 255)         /* Text */
-```
-
-**Typography:** Inter (Google Fonts)
-
-**Background:** Fixed mountain landscape (Unsplash) with gradient overlay
-
-**Messaging:**
-- Headline: "On the horizon.... 5th C coming soon"
-- Tagline: "Courage where credit is due"
-- Header: "Where innovation meets ag finance!"
-
-## Development Workflow
+## Development Commands
 
 ### Local Testing
-
 ```bash
-# Quick preview
+# Quick local server (Python)
 python3 -m http.server 8000 --directory public
 
 # Or with Node.js
 npx http-server public -p 8000
 ```
-
 Visit: http://localhost:8000
 
 ### Deployment
-
-**Deploy to Cloudflare Pages:**
 ```bash
+# Deploy to Cloudflare Pages production
 wrangler pages deploy public --project-name 5thc-finance
+
+# Preview deployment (test before production)
+wrangler pages deploy public --project-name 5thc-finance --branch preview
+
+# Check Wrangler authentication
+wrangler whoami
+
+# List Cloudflare Pages projects
+wrangler pages project list
 ```
 
-**Preview deployment:**
-```bash
-wrangler pages deploy public --project-name 5thc-finance --branch preview
+## Architecture & Design System
+
+### Color Palette (Extracted from Background Image)
+
+All colors are derived from the custom mountain landscape background for visual harmony:
+
+```css
+--sunset-amber: #C68A4A     /* Primary - headlines, borders */
+--sunset-orange: #E6A665    /* Secondary - gradients */
+--warm-salmon: #DFA28C      /* Accent - CTA buttons */
+--muted-gray: #D6D6D6       /* Subtext - taglines */
+--deep-black: #0B0B0B       /* Backgrounds */
+--white: #FFFFFF            /* Headlines */
 ```
+
+**Important:** When modifying colors, maintain this sunset/prairie aesthetic. The palette is intentionally warm and earthy to match the agricultural finance theme.
+
+### Visual Effects Architecture
+
+**Glassmorphism Pattern:**
+- Applied to: header, signup form container, footer
+- Technique: `backdrop-filter: blur(20px)` + semi-transparent backgrounds
+- Browser support: Includes `-webkit-` prefixes for Safari
+
+**Animation System:**
+1. **Page Load Sequence (staggered):**
+   - Header slides down (0.8s, immediate)
+   - Logo fades in (1s, 0.2s delay)
+   - Tagline fades in (1s, 0.4s delay)
+   - Hero content rises up (1s, 0.6s delay)
+   - Form fades up (1s, 0.8s delay)
+   - Footer fades in (1s, 1s delay)
+
+2. **Continuous Animations:**
+   - Background: subtle zoom (20s infinite alternate)
+   - Main headline gradient: color shift (8s infinite)
+
+3. **Interactive Animations:**
+   - Button hover: lift + scale + glow + shine sweep
+   - Input focus: border color + glow ring + lift
+   - Form messages: slide-in with bounce
+
+**Accessibility:** All animations respect `prefers-reduced-motion` and are disabled automatically for users who request reduced motion.
 
 ### File Structure
 
 ```
 public/
-├── index.html              # Main landing page
+├── index.html                      # Single-page application
 └── assets/
     ├── css/
-    │   └── style.css      # All styles (no preprocessor)
-    └── js/
-        └── main.js        # Form handling, analytics
+    │   └── style.css              # All styles, ~500 lines, CSS-only animations
+    ├── js/
+    │   └── main.js                # Email form handler, localStorage-based
+    └── images/
+        └── mountain-bg-dark.jpg   # Custom background (388KB)
 ```
 
-## Email Signup Implementation
+**Key Principle:** Zero build step. All files are production-ready as-is. No compilation, transpilation, or bundling required.
 
-**Current:** localStorage (client-side only, for testing)
+## Email Signup Integration
 
-**Production Options:**
+**Current State:** Emails stored in browser localStorage (client-side only).
 
-1. **n8n Webhook (Recommended for Iyeska infrastructure)**
-   - Endpoint: `https://n8n.iyeska.net/webhook/5thc-signup`
-   - Workflow: n8n → Slack notification → Google Sheets/Airtable
-   - No third-party dependencies
+**To Integrate Production Email Service:**
 
-2. **Cloudflare Workers + KV**
-   - Store emails in Workers KV
-   - Weekly export via cron trigger
-   - 100% free tier (1000 writes/day limit)
+Edit `public/assets/js/main.js` around line 18. Replace `storeEmailLocally(email)` with one of:
 
-3. **Mailchimp/ConvertKit**
-   - Direct API integration
-   - Requires paid plan ($10-20/month)
-
-**To switch from localStorage to n8n:**
-
-Edit `public/assets/js/main.js`:
-
+**Option A: n8n Webhook (Recommended for Iyeska infrastructure)**
 ```javascript
 async function submitToN8n(email) {
-    const response = await fetch('https://n8n.iyeska.net/webhook/5thc-signup', {
+    await fetch('https://n8n.iyeska.net/webhook/5thc-signup', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -106,146 +120,124 @@ async function submitToN8n(email) {
             source: '5thc-finance-landing'
         })
     });
-
-    if (!response.ok) {
-        throw new Error('Signup failed');
-    }
-
-    return response.json();
 }
 ```
 
-Replace the `try` block in the form handler.
-
-## Custom Domain Setup
-
-1. Deploy to Cloudflare Pages first
-2. In Cloudflare dashboard:
-   - Workers & Pages → 5thc-finance → Custom domains
-   - Add domain: `5thc.finance`
-3. DNS will auto-configure (already on Cloudflare)
-
-## Performance Optimization
-
-**Current (static files):**
-- No build step required
-- No JavaScript framework overhead
-- Single HTTP request for HTML
-- Lazy-loaded fonts (Google Fonts)
-
-**Future optimizations:**
-- Inline critical CSS (first paint)
-- Self-host Google Fonts (avoid external request)
-- Add service worker for offline support
-- Compress background image (currently Unsplash)
-
-## Analytics
-
-**Google Analytics (optional):**
-
-Add to `<head>` in `public/index.html`:
-
-```html
-<!-- Google Analytics -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-  gtag('config', 'G-XXXXXXXXXX');
-</script>
+**Option B: Cloudflare Workers + KV**
+```javascript
+async function submitToWorker(email) {
+    await fetch('/api/signup', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email })
+    });
+}
 ```
 
-**Cloudflare Web Analytics (privacy-first, recommended):**
-
-Add to `<head>`:
-
-```html
-<!-- Cloudflare Web Analytics -->
-<script defer src='https://static.cloudflareinsights.com/beacon.min.js'
-        data-cf-beacon='{"token": "YOUR_TOKEN"}'></script>
+Then create `workers/signup.js`:
+```javascript
+export default {
+    async fetch(request, env) {
+        const { email } = await request.json();
+        await env.SIGNUPS.put(email, new Date().toISOString());
+        return new Response(JSON.stringify({ success: true }));
+    }
+}
 ```
 
-Get token from: Cloudflare Dashboard → Web Analytics
+## Custom Domain Configuration
 
-## Content Updates
+Domains are already configured in Cloudflare:
+- Primary: `5thc.finance`
+- Alternate: `www.5thc.finance`
 
-To update messaging or design:
+**To Add Additional Domains:**
+1. Cloudflare Dashboard → Workers & Pages → 5thc-finance
+2. Custom domains tab → Set up a custom domain
+3. Enter domain name
+4. Cloudflare auto-creates CNAME record to `5thc-finance.pages.dev`
+5. Wait 2-5 minutes for SSL certificate provisioning
 
-1. Edit files in `public/`
-2. Test locally: `python3 -m http.server 8000 --directory public`
-3. Deploy: `wrangler pages deploy public --project-name 5thc-finance`
-4. Changes are live in ~30 seconds
+## Content and Messaging
 
-## Migration Checklist
+**Fixed Content (Do Not Change Without Approval):**
+- Headline: "On the horizon.... 5th C coming soon"
+- Tagline: "Courage where credit is due"
+- Header tagline: "Where innovation meets ag finance!"
 
-- [x] Recreate WordPress design in pure HTML/CSS/JS
-- [x] Email signup form (localStorage for now)
-- [x] Mobile-responsive layout
-- [x] Wrangler configuration
-- [ ] Deploy to Cloudflare Pages
-- [ ] Configure custom domain (5thc.finance)
-- [ ] Test email signup flow
-- [ ] Integrate with n8n or Mailchimp
-- [ ] Add Google/Cloudflare Analytics (optional)
-- [ ] Update DNS to point to Cloudflare Pages
-- [ ] Decommission WordPress site
+**Typography:**
+- Font: Inter (Google Fonts, loaded from CDN)
+- Headline sizes use `clamp()` for fluid responsive scaling
+- Line heights optimized for readability: 1.1-1.6 depending on element
 
 ## Troubleshooting
 
-**Deployment fails:**
-```bash
-# Check Wrangler auth
-wrangler whoami
+**CSS Not Loading:**
+- Verify path: `/assets/css/style.css` (absolute path)
+- Check file exists in `public/assets/css/`
+- Clear browser cache (Cmd+Shift+R on Mac)
 
-# Re-authenticate
+**Animations Not Working:**
+- Check browser DevTools console for errors
+- Verify browser supports `backdrop-filter` (Safari needs `-webkit-`)
+- Check if user has `prefers-reduced-motion` enabled
+
+**Deployment Issues:**
+```bash
+# Re-authenticate with Cloudflare
 wrangler login
 
-# Check project name
+# Verify project exists
 wrangler pages project list
+
+# Check for errors in Cloudflare dashboard
+# Workers & Pages → 5thc-finance → Deployments
 ```
 
-**Custom domain not working:**
-1. Verify domain in Cloudflare dashboard
-2. Check DNS records (should auto-configure)
-3. Wait 5-10 minutes for propagation
-4. Clear browser cache
+**Email Form Not Submitting:**
+1. Open browser console (F12)
+2. Check for JavaScript errors
+3. Verify localStorage is enabled (not in incognito mode)
+4. Test email format validation (regex: `/^[^\s@]+@[^\s@]+\.[^\s@]+$/`)
 
-**Email signup not working:**
-1. Check browser console for errors
-2. Verify localStorage is enabled
-3. Test with different email format
-4. Check network tab for API calls (if using external service)
+## Performance Characteristics
 
-## Future Enhancements
+- **Total Page Weight:** ~405 KB (HTML + CSS + JS + image)
+- **First Paint:** <500ms (static HTML, inline critical path)
+- **Time to Interactive:** ~1s (single JS file, no framework overhead)
+- **Expected Lighthouse Score:** 100/100 across all metrics
 
-**Phase 2: Content expansion**
-- About section (company mission, values)
-- Team bios
-- Services overview
-- Contact form
+**CDN Distribution:** 275+ Cloudflare locations worldwide, automatic HTTP/3, Brotli compression.
 
-**Phase 3: Blog/News**
-- Static site generator (11ty, Hugo)
-- Markdown-based content
-- RSS feed
-- Search functionality
+## Git Workflow
 
-**Phase 4: Full site**
-- Loan application portal
-- Customer dashboard
-- API integrations
+This repository is **standalone** - not part of the main workspace.
 
-## Data Sovereignty Principles
+**Making Changes:**
+```bash
+# Edit files in public/
+git add .
+git commit -m "Descriptive commit message"
+git push origin main
 
-Following Iyeska standards:
+# Deploy to Cloudflare
+wrangler pages deploy public --project-name 5thc-finance
+```
 
-- ✅ Self-hosted on Cloudflare (US-based, privacy-focused)
-- ✅ No third-party trackers (no Facebook Pixel, no Google Ads)
-- ✅ Email data under full control (localStorage → n8n → self-hosted)
-- ✅ Open source (pure HTML/CSS/JS, no proprietary code)
-- ✅ Audit logging (Cloudflare analytics, optional)
+**Deployment is manual** - pushes to GitHub do not automatically deploy. Always run `wrangler pages deploy` after pushing code.
 
-## Support
+## Design Constraints
 
-Contact: admin@5thc.finance or admin@iyeska.net
+**Do Not:**
+- Add JavaScript frameworks (React, Vue, etc.) - keep it static
+- Change color palette without extracting from background image
+- Remove glassmorphism effects (core to design identity)
+- Add complex build steps (Webpack, Vite, etc.)
+- Use external CSS frameworks (Bootstrap, Tailwind)
+
+**Do:**
+- Maintain mobile-first responsive design
+- Keep all animations smooth (60fps target)
+- Test on Safari (webkit prefixes required for some effects)
+- Preserve accessibility features (keyboard nav, screen readers)
+- Keep total page weight under 500 KB
