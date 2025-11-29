@@ -35,3 +35,7 @@ wowasi_ya/
 
 # User-specific Claude Code settings
 .claude/settings.local.json
+
+# Infrastructure documentation (contains sensitive network/security info)
+Infrastructure-Inventory.md
+gather-m1-info.sh
