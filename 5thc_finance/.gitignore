@@ -1,0 +1,36 @@
+# Node modules (if added later)
+node_modules/
+npm-debug.log
+yarn-error.log
+
+# Environment files
+.env
+.env.local
+.env.*.local
+
+# Wrangler
+.wrangler/
+wrangler.toml.backup
+
+# OS files
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+*~
+
+# IDE
+.vscode/
+.idea/
+*.sublime-*
+
+# Build output (if using build process)
+dist/
+build/
+
+# Logs
+logs/
+*.log
+
+# Cloudflare
+.dev.vars

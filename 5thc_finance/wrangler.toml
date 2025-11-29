@@ -1,0 +1,18 @@
+# Wrangler configuration for 5th C Finance landing page
+# Deploy to Cloudflare Pages free tier
+
+name = "5thc-finance"
+compatibility_date = "2024-01-01"
+
+# Pages configuration
+pages_build_output_dir = "public"
+
+# Custom domain configuration (set up in Cloudflare dashboard)
+# Add your domain: 5thc.finance
+# Routes will be configured automatically
+
+[env.production]
+name = "5thc-finance"
+
+[env.preview]
+name = "5thc-finance-preview"
