@@ -6,10 +6,23 @@
 }
 
 :root {
-    --primary-blue: rgb(66, 99, 190);
-    --accent-orange: rgb(234, 147, 116);
-    --dark-bg: rgb(18, 19, 21);
-    --white: rgb(255, 255, 255);
+    /* Colors extracted from background image */
+    --sunset-amber: #C68A4A;
+    --sunset-orange: #E6A665;
+    --warm-salmon: #DFA28C;
+    --prairie-brown: #6A4B2A;
+    --horizon-brown: #3A2A1C;
+    --deep-black: #0B0B0B;
+
+    /* Text colors */
+    --white: #FFFFFF;
+    --muted-gray: #D6D6D6;
+
+    /* Legacy naming for easier migration */
+    --primary-color: var(--sunset-amber);
+    --accent-color: var(--warm-salmon);
+    --dark-bg: var(--deep-black);
+
     --font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
 }
 
@@ -39,10 +52,10 @@ body::before {
     height: 100%;
     background:
         linear-gradient(135deg,
-            rgba(18, 19, 21, 0.92) 0%,
-            rgba(66, 99, 190, 0.25) 40%,
-            rgba(234, 147, 116, 0.15) 60%,
-            rgba(18, 19, 21, 0.92) 100%
+            rgba(11, 11, 11, 0.85) 0%,
+            rgba(198, 138, 74, 0.20) 40%,
+            rgba(230, 166, 101, 0.15) 60%,
+            rgba(11, 11, 11, 0.85) 100%
         ),
         url('/assets/images/mountain-bg-dark.jpg') center/cover no-repeat fixed;
     z-index: -1;
@@ -62,10 +75,10 @@ body::before {
 .site-header {
     padding: 1.5rem 2rem;
     text-align: center;
-    background: rgba(18, 19, 21, 0.6);
+    background: rgba(11, 11, 11, 0.6);
     backdrop-filter: blur(20px) saturate(180%);
     -webkit-backdrop-filter: blur(20px) saturate(180%);
-    border-bottom: 1px solid rgba(66, 99, 190, 0.2);
+    border-bottom: 1px solid rgba(198, 138, 74, 0.3);
     box-shadow: 0 4px 30px rgba(0, 0, 0, 0.3);
     position: sticky;
     top: 0;
@@ -87,13 +100,13 @@ body::before {
 .logo h1 {
     font-size: 2.5rem;
     font-weight: 700;
-    background: linear-gradient(135deg, var(--primary-blue), var(--accent-orange));
+    background: linear-gradient(135deg, var(--sunset-amber), var(--sunset-orange));
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
     margin-bottom: 0.5rem;
     letter-spacing: -0.03em;
-    text-shadow: 0 0 30px rgba(66, 99, 190, 0.5);
+    text-shadow: 0 0 30px rgba(198, 138, 74, 0.5);
     animation: fadeInScale 1s ease-out 0.2s both;
 }
 
@@ -110,10 +123,10 @@ body::before {
 
 .tagline p {
     font-size: 1.1rem;
-    color: var(--accent-orange);
+    color: var(--muted-gray);
     font-weight: 500;
     letter-spacing: 0.02em;
-    text-shadow: 0 2px 10px rgba(234, 147, 116, 0.4);
+    text-shadow: 0 2px 10px rgba(214, 214, 214, 0.3);
     animation: fadeInScale 1s ease-out 0.4s both;
 }
 
@@ -159,9 +172,9 @@ body::before {
     font-size: clamp(2.5rem, 7vw, 5rem);
     font-weight: 800;
     background: linear-gradient(135deg,
-        var(--primary-blue) 0%,
-        var(--accent-orange) 50%,
-        var(--primary-blue) 100%
+        var(--sunset-amber) 0%,
+        var(--sunset-orange) 50%,
+        var(--warm-salmon) 100%
     );
     background-size: 200% 200%;
     -webkit-background-clip: text;
@@ -172,7 +185,7 @@ body::before {
     letter-spacing: -0.02em;
     text-transform: uppercase;
     animation: gradientShift 8s ease-in-out infinite;
-    filter: drop-shadow(0 0 40px rgba(66, 99, 190, 0.6));
+    filter: drop-shadow(0 0 40px rgba(198, 138, 74, 0.6));
 }
 
 @keyframes gradientShift {
@@ -186,12 +199,12 @@ body::before {
 
 .hero-tagline {
     font-size: clamp(1.25rem, 3vw, 2rem);
-    color: var(--accent-orange);
+    color: var(--muted-gray);
     margin-bottom: 3rem;
     font-weight: 600;
     letter-spacing: 0.02em;
     text-shadow:
-        0 0 20px rgba(234, 147, 116, 0.5),
+        0 0 20px rgba(214, 214, 214, 0.4),
         0 2px 10px rgba(0, 0, 0, 0.3);
     line-height: 1.4;
 }
@@ -209,11 +222,11 @@ body::before {
     max-width: 550px;
     margin: 0 auto;
     padding: 2.5rem;
-    background: rgba(18, 19, 21, 0.5);
+    background: rgba(11, 11, 11, 0.5);
     backdrop-filter: blur(20px) saturate(180%);
     -webkit-backdrop-filter: blur(20px) saturate(180%);
     border-radius: 20px;
-    border: 1px solid rgba(66, 99, 190, 0.3);
+    border: 1px solid rgba(198, 138, 74, 0.3);
     box-shadow:
         0 8px 32px rgba(0, 0, 0, 0.4),
         inset 0 1px 0 rgba(255, 255, 255, 0.1);
@@ -222,7 +235,7 @@ body::before {
 .signup-form input[type="email"] {
     padding: 1.25rem 1.75rem;
     font-size: 1.1rem;
-    border: 2px solid rgba(66, 99, 190, 0.5);
+    border: 2px solid rgba(198, 138, 74, 0.4);
     border-radius: 12px;
     background: rgba(255, 255, 255, 0.05);
     color: var(--white);
@@ -237,15 +250,15 @@ body::before {
 }
 
 .signup-form input[type="email"]:hover {
-    border-color: rgba(66, 99, 190, 0.8);
+    border-color: rgba(198, 138, 74, 0.7);
     background: rgba(255, 255, 255, 0.08);
 }
 
 .signup-form input[type="email"]:focus {
-    border-color: var(--accent-orange);
+    border-color: var(--sunset-orange);
     background: rgba(255, 255, 255, 0.1);
     box-shadow:
-        0 0 0 4px rgba(234, 147, 116, 0.15),
+        0 0 0 4px rgba(230, 166, 101, 0.2),
         0 8px 16px rgba(0, 0, 0, 0.2);
     transform: translateY(-2px);
 }
@@ -255,7 +268,7 @@ body::before {
     font-size: 1.2rem;
     font-weight: 700;
     color: var(--white);
-    background: linear-gradient(135deg, var(--primary-blue), var(--accent-orange));
+    background: linear-gradient(135deg, var(--sunset-amber), var(--warm-salmon));
     background-size: 200% 200%;
     border: none;
     border-radius: 12px;
@@ -267,7 +280,7 @@ body::before {
     position: relative;
     overflow: hidden;
     box-shadow:
-        0 10px 30px rgba(66, 99, 190, 0.4),
+        0 10px 30px rgba(198, 138, 74, 0.4),
         0 1px 2px rgba(0, 0, 0, 0.2);
 }
 
@@ -289,8 +302,8 @@ body::before {
 .btn-primary:hover {
     transform: translateY(-4px) scale(1.02);
     box-shadow:
-        0 20px 40px rgba(66, 99, 190, 0.6),
-        0 10px 20px rgba(234, 147, 116, 0.3);
+        0 20px 40px rgba(198, 138, 74, 0.6),
+        0 10px 20px rgba(223, 162, 140, 0.4);
     background-position: 100% 50%;
 }
 
@@ -343,12 +356,12 @@ body::before {
 .site-footer {
     padding: 2rem 1rem;
     text-align: center;
-    background: rgba(18, 19, 21, 0.6);
+    background: rgba(11, 11, 11, 0.6);
     backdrop-filter: blur(20px) saturate(180%);
     -webkit-backdrop-filter: blur(20px) saturate(180%);
-    border-top: 1px solid rgba(66, 99, 190, 0.2);
+    border-top: 1px solid rgba(198, 138, 74, 0.3);
     font-size: 0.95rem;
-    color: rgba(255, 255, 255, 0.6);
+    color: rgba(214, 214, 214, 0.7);
     box-shadow: 0 -4px 30px rgba(0, 0, 0, 0.3);
     animation: fadeIn 1s ease-out 1s both;
 }
@@ -470,7 +483,7 @@ body {
 a:focus,
 button:focus,
 input:focus {
-    outline: 3px solid var(--accent-orange);
+    outline: 3px solid var(--sunset-orange);
     outline-offset: 2px;
 }
 
@@ -484,10 +497,10 @@ input:focus {
 }
 
 ::-webkit-scrollbar-thumb {
-    background: linear-gradient(135deg, var(--primary-blue), var(--accent-orange));
+    background: linear-gradient(135deg, var(--sunset-amber), var(--warm-salmon));
     border-radius: 5px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-    background: linear-gradient(135deg, var(--accent-orange), var(--primary-blue));
+    background: linear-gradient(135deg, var(--sunset-orange), var(--sunset-amber));
 }
