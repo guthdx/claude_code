@@ -1,0 +1,1277 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Life's Essential 8 - Heart Health Calculator | Missouri Breaks</title>
+    <link href="https://fonts.googleapis.com/css2?family=Helvetica+Neue:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+            background: linear-gradient(135deg, #AFE3EF 0%, #90A2B6 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.98);
+            border-radius: 20px;
+            padding: 0;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+            overflow: hidden;
+        }
+
+        .mbiri-header {
+            background: linear-gradient(135deg, #AFE3EF 0%, #ffffff 50%, #f8f9fa 100%);
+            padding: 20px 30px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-bottom: 4px solid #335941;
+        }
+
+        .mbiri-logo-section {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .mbiri-logo {
+            height: 60px;
+            width: auto;
+        }
+
+        .mbiri-tagline {
+            color: #335941;
+            font-size: 1rem;
+            font-style: italic;
+            font-weight: 400;
+        }
+
+        .content-wrapper {
+            padding: 30px;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+            border-bottom: 3px solid #335941;
+            padding-bottom: 20px;
+        }
+
+        .header h1 {
+            color: #484848;
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+        }
+
+        .header .subtitle {
+            color: #6F6F71;
+            font-size: 1.2rem;
+            margin-bottom: 15px;
+            font-weight: 400;
+            font-style: italic;
+        }
+
+        .footer {
+            background: linear-gradient(135deg, #AFE3EF 0%, #90A2B6 100%);
+            padding: 20px 30px;
+            color: #484848;
+            font-size: 0.9rem;
+            line-height: 1.6;
+            border-top: 4px solid #335941;
+        }
+
+        .footer-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .footer-logo {
+            height: 40px;
+            width: auto;
+        }
+
+        .footer-text {
+            flex: 1;
+            min-width: 300px;
+        }
+
+        .footer-text strong {
+            color: #335941;
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 700;
+        }
+
+        .footer-credit {
+            color: #6F6F71;
+            font-size: 0.85rem;
+            font-style: italic;
+            margin-top: 10px;
+        }
+
+        .aha-info {
+            background: rgba(175, 227, 239, 0.15);
+            border-left: 4px solid #AFE3EF;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 30px;
+        }
+
+        .aha-info h3 {
+            color: #335941;
+            margin-bottom: 10px;
+            font-weight: 700;
+        }
+
+        .aha-info p {
+            color: #484848;
+            line-height: 1.6;
+            margin-bottom: 10px;
+        }
+
+        .form-section {
+            margin-bottom: 25px;
+            padding: 25px;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 15px;
+            border-left: 4px solid #BFA44E;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+        }
+
+        .form-section h3 {
+            color: #484848;
+            margin-bottom: 8px;
+            font-size: 1.4rem;
+            display: flex;
+            align-items: center;
+            font-weight: 700;
+        }
+
+        .section-icon {
+            margin-right: 10px;
+            font-size: 1.5rem;
+        }
+
+        .section-hint {
+            color: #6F6F71;
+            font-size: 0.9rem;
+            font-style: italic;
+            margin-bottom: 15px;
+            line-height: 1.4;
+        }
+
+        .info-toggle {
+            background: rgba(175, 227, 239, 0.2);
+            border: 1px solid #AFE3EF;
+            color: #335941;
+            padding: 8px 12px;
+            border-radius: 6px;
+            font-size: 0.85rem;
+            cursor: pointer;
+            margin-bottom: 15px;
+            transition: all 0.2s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            font-weight: 500;
+        }
+
+        .info-toggle:hover {
+            background: rgba(175, 227, 239, 0.3);
+            border-color: #90A2B6;
+        }
+
+        .info-box {
+            background: rgba(175, 227, 239, 0.1);
+            border-left: 3px solid #AFE3EF;
+            padding: 15px;
+            border-radius: 6px;
+            margin-bottom: 15px;
+            font-size: 0.9rem;
+            line-height: 1.6;
+        }
+
+        .info-box.hidden {
+            display: none;
+        }
+
+        .info-box p {
+            margin-bottom: 10px;
+            color: #484848;
+        }
+
+        .info-box p:last-child {
+            margin-bottom: 0;
+        }
+
+        .info-box strong {
+            color: #335941;
+            font-weight: 700;
+        }
+
+        .bmi-calculator {
+            display: grid;
+            grid-template-columns: 1fr 1fr auto;
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        .bmi-calculator input {
+            padding: 8px;
+            border: 2px solid #AFE3EF;
+            border-radius: 6px;
+            font-size: 0.9rem;
+            font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+        }
+
+        .bmi-calculator input:focus {
+            outline: none;
+            border-color: #335941;
+        }
+
+        .bmi-calculator button {
+            padding: 8px 16px;
+            background: #335941;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: background 0.2s ease;
+        }
+
+        .bmi-calculator button:hover {
+            background: #264430;
+        }
+
+        #bmiResult {
+            margin-top: 10px;
+            font-weight: 500;
+            color: #484848;
+        }
+
+        .radio-group {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .radio-option {
+            display: flex;
+            flex-direction: column;
+            padding: 15px;
+            background: rgba(255, 255, 255, 0.7);
+            border-radius: 10px;
+            border: 2px solid #e0e0e0;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .radio-option:hover {
+            background: rgba(175, 227, 239, 0.1);
+            border-color: #AFE3EF;
+        }
+
+        .radio-option input[type="radio"] {
+            margin-right: 12px;
+            transform: scale(1.2);
+            accent-color: #335941;
+        }
+
+        .radio-option.selected {
+            background: rgba(191, 164, 78, 0.1);
+            border-color: #BFA44E;
+        }
+
+        .option-content {
+            flex: 1;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .option-main {
+            display: flex;
+            align-items: center;
+            flex: 1;
+        }
+
+        .diet-hint {
+            font-size: 0.85rem;
+            color: #6F6F71;
+            padding-top: 8px;
+            padding-left: 32px;
+            line-height: 1.4;
+            font-style: italic;
+        }
+
+        .points {
+            background: linear-gradient(135deg, #BFA44E 0%, #a68f42 100%);
+            color: white;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-weight: 700;
+            font-size: 0.9rem;
+        }
+
+        .checkbox-modifier {
+            margin-top: 15px;
+            padding: 12px;
+            background: rgba(191, 164, 78, 0.1);
+            border-radius: 8px;
+            border-left: 3px solid #BFA44E;
+        }
+
+        .checkbox-modifier label {
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+            color: #6F6F71;
+            font-weight: 500;
+        }
+
+        .checkbox-modifier input[type="checkbox"] {
+            margin-right: 8px;
+            transform: scale(1.1);
+            accent-color: #BFA44E;
+        }
+
+        .calculate-btn {
+            width: 100%;
+            padding: 18px;
+            background: linear-gradient(135deg, #335941 0%, #264430 100%);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-size: 1.3rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin: 30px 0;
+            letter-spacing: 0.5px;
+        }
+
+        .calculate-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(51, 89, 65, 0.3);
+        }
+
+        .results {
+            margin-top: 30px;
+            padding: 30px;
+            background: linear-gradient(135deg, rgba(175, 227, 239, 0.1), rgba(144, 162, 182, 0.1));
+            border-radius: 15px;
+            border: 2px solid #AFE3EF;
+            display: none;
+        }
+
+        .results.show {
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .total-score {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .score-display {
+            font-size: 4rem;
+            font-weight: 700;
+            margin: 15px 0;
+        }
+
+        .score-high { color: #335941; }
+        .score-moderate { color: #BFA44E; }
+        .score-low { color: #EA9674; }
+
+        .score-category {
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin-bottom: 15px;
+        }
+
+        .score-breakdown {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+
+        .breakdown-item {
+            background: white;
+            padding: 15px;
+            border-radius: 10px;
+            text-align: center;
+            border-left: 4px solid #BFA44E;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+        }
+
+        .breakdown-item h4 {
+            color: #484848;
+            margin-bottom: 8px;
+            font-size: 0.9rem;
+            font-weight: 700;
+        }
+
+        .breakdown-score {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: #335941;
+        }
+
+        .interpretation {
+            background: white;
+            padding: 25px;
+            border-radius: 10px;
+            margin-top: 20px;
+            border-left: 4px solid #335941;
+        }
+
+        .interpretation h4 {
+            color: #335941;
+            margin-bottom: 15px;
+            font-size: 1.3rem;
+            font-weight: 700;
+        }
+
+        .interpretation p {
+            color: #484848;
+            line-height: 1.6;
+        }
+
+        .disclaimer {
+            background: rgba(234, 150, 116, 0.15);
+            border: 2px solid #EA9674;
+            color: #484848;
+            padding: 20px;
+            border-radius: 8px;
+            margin-top: 30px;
+            font-size: 0.95rem;
+            line-height: 1.6;
+        }
+
+        .disclaimer strong {
+            display: block;
+            margin-bottom: 10px;
+            color: #335941;
+            font-weight: 700;
+        }
+
+        @media (max-width: 768px) {
+            .mbiri-header {
+                flex-direction: column;
+                text-align: center;
+                gap: 10px;
+            }
+
+            .content-wrapper {
+                padding: 20px;
+            }
+
+            .header h1 {
+                font-size: 2rem;
+            }
+
+            .score-display {
+                font-size: 3rem;
+            }
+
+            .bmi-calculator {
+                grid-template-columns: 1fr;
+            }
+
+            .footer-content {
+                flex-direction: column;
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="mbiri-header">
+            <div class="mbiri-logo-section">
+                <img src="https://raw.githubusercontent.com/guthdx/test.mbiri.net/main/mbiri_logo.png" alt="Missouri Breaks Industries Research, Inc." class="mbiri-logo">
+            </div>
+            <div class="mbiri-tagline">
+                Creating Opportunities for Health
+            </div>
+        </div>
+
+        <div class="content-wrapper">
+            <div class="header">
+                <h1>❤️ Life's Essential 8</h1>
+                <p class="subtitle">Heart Health Calculator</p>
+            </div>
+
+            <div class="aha-info">
+            <h3>About This Tool</h3>
+            <p>This worksheet is based on the American Heart Association's Life's Essential 8, a set of key health behaviors and clinical measures that have been shown to impact heart health.</p>
+            <p><strong>It's not a test... it's a tool.</strong> You just select the answer that fits you best in each section. At the end, you'll add up your points to get a total score.</p>
+        </div>
+
+        <div class="form-section">
+            <h3><span class="section-icon">🩺</span> Blood Pressure</h3>
+            <button class="info-toggle" onclick="toggleInfo('bpInfo')">
+                📊 Don't know your blood pressure?
+            </button>
+            <div id="bpInfo" class="info-box hidden">
+                <p>Blood pressure is measured with two numbers (like 120/80). The first number (systolic) measures pressure when your heart beats. The second (diastolic) measures pressure when your heart rests between beats.</p>
+                <p><strong>Where to get it checked:</strong> Doctor's office, pharmacy, health fair, or home monitor.</p>
+            </div>
+            <div class="radio-group">
+                <label class="radio-option">
+                    <div class="option-main">
+                        <input type="radio" name="bloodPressure" value="100">
+                        <div class="option-content">
+                            <span>Less than 115/75</span>
+                            <span class="points">100 pts</span>
+                        </div>
+                    </div>
+                </label>
+                <label class="radio-option">
+                    <div class="option-main">
+                        <input type="radio" name="bloodPressure" value="75">
+                        <div class="option-content">
+                            <span>115–124 / under 75</span>
+                            <span class="points">75 pts</span>
+                        </div>
+                    </div>
+                </label>
+                <label class="radio-option">
+                    <div class="option-main">
+                        <input type="radio" name="bloodPressure" value="50">
+                        <div class="option-content">
+                            <span>125–134 / or 75–84</span>
+                            <span class="points">50 pts</span>
+                        </div>
+                    </div>
+                </label>
+                <label class="radio-option">
+                    <div class="option-main">
+                        <input type="radio" name="bloodPressure" value="25">
+                        <div class="option-content">
+                            <span>135–154 / or 85–94</span>
+                            <span class="points">25 pts</span>
+                        </div>
+                    </div>
+                </label>
+                <label class="radio-option">
+                    <div class="option-main">
+                        <input type="radio" name="bloodPressure" value="0">
+                        <div class="option-content">
+                            <span>155+ / or 95+</span>
+                            <span class="points">0 pts</span>
+                        </div>
+                    </div>
+                </label>
+            </div>
+            <div class="checkbox-modifier">
+                <label>
+                    <input type="checkbox" id="bpMeds">
+                    Subtract 20 if on BP medications
+                </label>
+            </div>
+        </div>
+
+        <div class="form-section">
+            <h3><span class="section-icon">🩸</span> Blood Sugar (A1C)</h3>
+            <button class="info-toggle" onclick="toggleInfo('a1cInfo')">
+                📊 Don't know your A1C?
+            </button>
+            <div id="a1cInfo" class="info-box hidden">
+                <p>A1C is a blood test that shows your average blood sugar level over the past 2-3 months. It's measured as a percentage.</p>
+                <p><strong>Where to get it tested:</strong> Doctor's office, clinic, or community health screening.</p>
+            </div>
+            <div class="radio-group">
+                <label class="radio-option">
+                    <div class="option-main">
+                        <input type="radio" name="bloodSugar" value="100">
+                        <div class="option-content">
+                            <span>No diabetes + A1C &lt; 5.7%</span>
+                            <span class="points">100 pts</span>
+                        </div>
+                    </div>
+                </label>
+                <label class="radio-option">
+                    <div class="option-main">
+                        <input type="radio" name="bloodSugar" value="60">
+                        <div class="option-content">
+                            <span>No diabetes, A1C 5.7–6.4%</span>
+                            <span class="points">60 pts</span>
+                        </div>
+                    </div>
+                </label>
+                <label class="radio-option">
+                    <div class="option-main">
+                        <input type="radio" name="bloodSugar" value="40">
+                        <div class="option-content">
+                            <span>Diabetes + A1C &lt;7.0%</span>
+                            <span class="points">40 pts</span>
+                        </div>
+                    </div>
+                </label>
+                <label class="radio-option">
+                    <div class="option-main">
+                        <input type="radio" name="bloodSugar" value="30">
+                        <div class="option-content">
+                            <span>Diabetes + A1C 7.0–7.9%</span>
+                            <span class="points">30 pts</span>
+                        </div>
+                    </div>
+                </label>
+                <label class="radio-option">
+                    <div class="option-main">
+                        <input type="radio" name="bloodSugar" value="20">
+                        <div class="option-content">
+                            <span>Diabetes + A1C 8.0–8.9%</span>
+                            <span class="points">20 pts</span>
+                        </div>
+                    </div>
+                </label>
+                <label class="radio-option">
+                    <div class="option-main">
+                        <input type="radio" name="bloodSugar" value="10">
+                        <div class="option-content">
+                            <span>Diabetes + A1C 9.0–9.9%</span>
+                            <span class="points">10 pts</span>
+                        </div>
+                    </div>
+                </label>
+                <label class="radio-option">
+                    <div class="option-main">
+                        <input type="radio" name="bloodSugar" value="0">
+                        <div class="option-content">
+                            <span>A1C 10.0% or more</span>
+                            <span class="points">0 pts</span>
+                        </div>
+                    </div>
+                </label>
+            </div>
+        </div>
+
+        <div class="form-section">
+            <h3><span class="section-icon">🧪</span> Cholesterol (non-HDL)</h3>
+            <button class="info-toggle" onclick="toggleInfo('cholInfo')">
+                📊 Don't know your cholesterol?
+            </button>
+            <div id="cholInfo" class="info-box hidden">
+                <p>Non-HDL cholesterol is calculated from your cholesterol panel blood test. It's your total cholesterol minus your "good" (HDL) cholesterol.</p>
+                <p><strong>Where to get it tested:</strong> Doctor's office, clinic, or community health screening.</p>
+            </div>
+            <div class="radio-group">
+                <label class="radio-option">
+                    <div class="option-main">
+                        <input type="radio" name="cholesterol" value="100">
+                        <div class="option-content">
+                            <span>Less than 130 mg/dL</span>
+                            <span class="points">100 pts</span>
+                        </div>
+                    </div>
+                </label>
+                <label class="radio-option">
+                    <div class="option-main">
+                        <input type="radio" name="cholesterol" value="60">
+                        <div class="option-content">
+                            <span>130–159</span>
+                            <span class="points">60 pts</span>
+                        </div>
+                    </div>
+                </label>
+                <label class="radio-option">
+                    <div class="option-main">
+                        <input type="radio" name="cholesterol" value="40">
+                        <div class="option-content">
+                            <span>160–189</span>
+                            <span class="points">40 pts</span>
+                        </div>
+                    </div>
+                </label>
+                <label class="radio-option">
+                    <div class="option-main">
+                        <input type="radio" name="cholesterol" value="20">
+                        <div class="option-content">
+                            <span>190–219</span>
+                            <span class="points">20 pts</span>
+                        </div>
+                    </div>
+                </label>
+                <label class="radio-option">
+                    <div class="option-main">
+                        <input type="radio" name="cholesterol" value="0">
+                        <div class="option-content">
+                            <span>220+</span>
+                            <span class="points">0 pts</span>
+                        </div>
+                    </div>
+                </label>
+            </div>
+            <div class="checkbox-modifier">
+                <label>
+                    <input type="checkbox" id="cholesterolMeds">
+                    Subtract 20 if on cholesterol medications
+                </label>
+            </div>
+        </div>
+
+        <div class="form-section">
+            <h3><span class="section-icon">🥗</span> Diet Quality</h3>
+            <div class="radio-group">
+                <label class="radio-option">
+                    <div class="option-main">
+                        <input type="radio" name="diet" value="100">
+                        <div class="option-content">
+                            <span>Very healthy</span>
+                            <span class="points">100 pts</span>
+                        </div>
+                    </div>
+                    <div class="diet-hint">Wide variety of vegetables, fruits, whole grains, beans, legumes, nuts, lean meats, and low-fat dairy (if tolerated). At least half your plate at each meal is fruits and vegetables.</div>
+                </label>
+                <label class="radio-option">
+                    <div class="option-main">
+                        <input type="radio" name="diet" value="80">
+                        <div class="option-content">
+                            <span>Pretty good</span>
+                            <span class="points">80 pts</span>
+                        </div>
+                    </div>
+                    <div class="diet-hint">Regular fruits and vegetables, mostly whole grains, some processed foods.</div>
+                </label>
+                <label class="radio-option">
+                    <div class="option-main">
+                        <input type="radio" name="diet" value="50">
+                        <div class="option-content">
+                            <span>Mixed</span>
+                            <span class="points">50 pts</span>
+                        </div>
+                    </div>
+                    <div class="diet-hint">Some healthy choices, some processed foods, irregular meal patterns.</div>
+                </label>
+                <label class="radio-option">
+                    <div class="option-main">
+                        <input type="radio" name="diet" value="25">
+                        <div class="option-content">
+                            <span>Not great</span>
+                            <span class="points">25 pts</span>
+                        </div>
+                    </div>
+                    <div class="diet-hint">Limited fruits and vegetables, mostly processed foods.</div>
+                </label>
+                <label class="radio-option">
+                    <div class="option-main">
+                        <input type="radio" name="diet" value="0">
+                        <div class="option-content">
+                            <span>Poor</span>
+                            <span class="points">0 pts</span>
+                        </div>
+                    </div>
+                    <div class="diet-hint">Very few fruits and vegetables, mostly fast food or highly processed meals.</div>
+                </label>
+            </div>
+        </div>
+
+        <div class="form-section">
+            <h3><span class="section-icon">🚭</span> Nicotine/Tobacco Use</h3>
+            <p class="section-hint">Includes cigarettes, e-cigarettes, vaping, and all inhaled nicotine products</p>
+            <div class="radio-group">
+                <label class="radio-option">
+                    <div class="option-main">
+                        <input type="radio" name="tobacco" value="100">
+                        <div class="option-content">
+                            <span>Never smoked</span>
+                            <span class="points">100 pts</span>
+                        </div>
+                    </div>
+                </label>
+                <label class="radio-option">
+                    <div class="option-main">
+                        <input type="radio" name="tobacco" value="75">
+                        <div class="option-content">
+                            <span>Quit 5+ years ago</span>
+                            <span class="points">75 pts</span>
+                        </div>
+                    </div>
+                </label>
+                <label class="radio-option">
+                    <div class="option-main">
+                        <input type="radio" name="tobacco" value="50">
+                        <div class="option-content">
+                            <span>Quit 1–5 years ago</span>
+                            <span class="points">50 pts</span>
+                        </div>
+                    </div>
+                </label>
+                <label class="radio-option">
+                    <div class="option-main">
+                        <input type="radio" name="tobacco" value="25">
+                        <div class="option-content">
+                            <span>Quit &lt;1 year ago</span>
+                            <span class="points">25 pts</span>
+                        </div>
+                    </div>
+                </label>
+                <label class="radio-option">
+                    <div class="option-main">
+                        <input type="radio" name="tobacco" value="0">
+                        <div class="option-content">
+                            <span>Current smoker/vaper</span>
+                            <span class="points">0 pts</span>
+                        </div>
+                    </div>
+                </label>
+            </div>
+            <div class="checkbox-modifier">
+                <label>
+                    <input type="checkbox" id="smokingInHome">
+                    Subtract 20 if anyone smokes in your home (secondhand smoke exposure)
+                </label>
+            </div>
+        </div>
+
+        <div class="form-section">
+            <h3><span class="section-icon">⚖️</span> Body Mass Index (BMI)</h3>
+            <button class="info-toggle" onclick="toggleInfo('bmiInfo')">
+                📊 Calculate my BMI
+            </button>
+            <div id="bmiInfo" class="info-box hidden">
+                <p>Enter your height and weight to calculate your BMI:</p>
+                <div class="bmi-calculator">
+                    <input type="number" placeholder="Height (inches)" id="heightInput">
+                    <input type="number" placeholder="Weight (pounds)" id="weightInput">
+                    <button onclick="calculateBMI()">Calculate</button>
+                </div>
+                <p id="bmiResult"></p>
+            </div>
+            <div class="radio-group">
+                <label class="radio-option">
+                    <div class="option-main">
+                        <input type="radio" name="bmi" value="100">
+                        <div class="option-content">
+                            <span>Under 25</span>
+                            <span class="points">100 pts</span>
+                        </div>
+                    </div>
+                </label>
+                <label class="radio-option">
+                    <div class="option-main">
+                        <input type="radio" name="bmi" value="70">
+                        <div class="option-content">
+                            <span>25–29.9</span>
+                            <span class="points">70 pts</span>
+                        </div>
+                    </div>
+                </label>
+                <label class="radio-option">
+                    <div class="option-main">
+                        <input type="radio" name="bmi" value="30">
+                        <div class="option-content">
+                            <span>30–34.9</span>
+                            <span class="points">30 pts</span>
+                        </div>
+                    </div>
+                </label>
+                <label class="radio-option">
+                    <div class="option-main">
+                        <input type="radio" name="bmi" value="15">
+                        <div class="option-content">
+                            <span>35–39.9</span>
+                            <span class="points">15 pts</span>
+                        </div>
+                    </div>
+                </label>
+                <label class="radio-option">
+                    <div class="option-main">
+                        <input type="radio" name="bmi" value="0">
+                        <div class="option-content">
+                            <span>40+</span>
+                            <span class="points">0 pts</span>
+                        </div>
+                    </div>
+                </label>
+            </div>
+        </div>
+
+        <div class="form-section">
+            <h3><span class="section-icon">🏃</span> Physical Activity</h3>
+            <p class="section-hint">Examples: Walking, gardening, dancing, sports, housework that makes you breathe harder</p>
+            <div class="radio-group">
+                <label class="radio-option">
+                    <div class="option-main">
+                        <input type="radio" name="activity" value="100">
+                        <div class="option-content">
+                            <span>10+ hours/week</span>
+                            <span class="points">100 pts</span>
+                        </div>
+                    </div>
+                </label>
+                <label class="radio-option">
+                    <div class="option-main">
+                        <input type="radio" name="activity" value="90">
+                        <div class="option-content">
+                            <span>8–9.9 hours/week</span>
+                            <span class="points">90 pts</span>
+                        </div>
+                    </div>
+                </label>
+                <label class="radio-option">
+                    <div class="option-main">
+                        <input type="radio" name="activity" value="80">
+                        <div class="option-content">
+                            <span>6–7.9 hours/week</span>
+                            <span class="points">80 pts</span>
+                        </div>
+                    </div>
+                </label>
+                <label class="radio-option">
+                    <div class="option-main">
+                        <input type="radio" name="activity" value="60">
+                        <div class="option-content">
+                            <span>4–5.9 hours/week</span>
+                            <span class="points">60 pts</span>
+                        </div>
+                    </div>
+                </label>
+                <label class="radio-option">
+                    <div class="option-main">
+                        <input type="radio" name="activity" value="40">
+                        <div class="option-content">
+                            <span>2–3.9 hours/week</span>
+                            <span class="points">40 pts</span>
+                        </div>
+                    </div>
+                </label>
+                <label class="radio-option">
+                    <div class="option-main">
+                        <input type="radio" name="activity" value="20">
+                        <div class="option-content">
+                            <span>Under 2 hours/week</span>
+                            <span class="points">20 pts</span>
+                        </div>
+                    </div>
+                </label>
+                <label class="radio-option">
+                    <div class="option-main">
+                        <input type="radio" name="activity" value="0">
+                        <div class="option-content">
+                            <span>No physical activity</span>
+                            <span class="points">0 pts</span>
+                        </div>
+                    </div>
+                </label>
+            </div>
+        </div>
+
+        <div class="form-section">
+            <h3><span class="section-icon">😴</span> Sleep Health</h3>
+            <div class="radio-group">
+                <label class="radio-option">
+                    <div class="option-main">
+                        <input type="radio" name="sleep" value="100">
+                        <div class="option-content">
+                            <span>7–8.9 hours/night</span>
+                            <span class="points">100 pts</span>
+                        </div>
+                    </div>
+                </label>
+                <label class="radio-option">
+                    <div class="option-main">
+                        <input type="radio" name="sleep" value="90">
+                        <div class="option-content">
+                            <span>9–9.9 hours/night</span>
+                            <span class="points">90 pts</span>
+                        </div>
+                    </div>
+                </label>
+                <label class="radio-option">
+                    <div class="option-main">
+                        <input type="radio" name="sleep" value="70">
+                        <div class="option-content">
+                            <span>6–6.9 hours/night</span>
+                            <span class="points">70 pts</span>
+                        </div>
+                    </div>
+                </label>
+                <label class="radio-option">
+                    <div class="option-main">
+                        <input type="radio" name="sleep" value="40">
+                        <div class="option-content">
+                            <span>5–5.9 or 10+ hours/night</span>
+                            <span class="points">40 pts</span>
+                        </div>
+                    </div>
+                </label>
+                <label class="radio-option">
+                    <div class="option-main">
+                        <input type="radio" name="sleep" value="20">
+                        <div class="option-content">
+                            <span>4–4.9 hours/night</span>
+                            <span class="points">20 pts</span>
+                        </div>
+                    </div>
+                </label>
+                <label class="radio-option">
+                    <div class="option-main">
+                        <input type="radio" name="sleep" value="0">
+                        <div class="option-content">
+                            <span>Less than 4 hours/night</span>
+                            <span class="points">0 pts</span>
+                        </div>
+                    </div>
+                </label>
+            </div>
+        </div>
+
+        <button id="calculateBtn" class="calculate-btn">
+            Calculate My Life's Essential 8 Score
+        </button>
+
+        <div id="results" class="results">
+            <div class="total-score">
+                <div>Your Total Score:</div>
+                <div id="totalScore" class="score-display">0</div>
+                <div id="scoreCategory" class="score-category">Calculating...</div>
+                <div id="scoreDescription"></div>
+            </div>
+
+            <div class="score-breakdown">
+                <div class="breakdown-item">
+                    <h4>Blood Pressure</h4>
+                    <div id="bpScore" class="breakdown-score">0</div>
+                </div>
+                <div class="breakdown-item">
+                    <h4>Blood Sugar</h4>
+                    <div id="bsScore" class="breakdown-score">0</div>
+                </div>
+                <div class="breakdown-item">
+                    <h4>Cholesterol</h4>
+                    <div id="cholScore" class="breakdown-score">0</div>
+                </div>
+                <div class="breakdown-item">
+                    <h4>Diet Quality</h4>
+                    <div id="dietScore" class="breakdown-score">0</div>
+                </div>
+                <div class="breakdown-item">
+                    <h4>Tobacco Use</h4>
+                    <div id="tobaccoScore" class="breakdown-score">0</div>
+                </div>
+                <div class="breakdown-item">
+                    <h4>BMI</h4>
+                    <div id="bmiScore" class="breakdown-score">0</div>
+                </div>
+                <div class="breakdown-item">
+                    <h4>Physical Activity</h4>
+                    <div id="activityScore" class="breakdown-score">0</div>
+                </div>
+                <div class="breakdown-item">
+                    <h4>Sleep Health</h4>
+                    <div id="sleepScore" class="breakdown-score">0</div>
+                </div>
+            </div>
+
+            <div class="interpretation">
+                <h4>What Your Score Means</h4>
+                <div id="interpretation"></div>
+            </div>
+        </div>
+
+            <div class="disclaimer">
+                <strong>Important Note:</strong>
+                This calculator is based on the American Heart Association's Life's Essential 8 and is for educational purposes only. It's not a diagnosis - but it is a conversation starter. Remember, knowledge is power and taking steps today can lead to a stronger, healthier tomorrow. If you're unsure where to start, use this score to guide a conversation with your doctor, nurse, community health worker, or someone you trust.
+            </div>
+        </div>
+
+        <div class="footer">
+            <div class="footer-content">
+                <img src="https://raw.githubusercontent.com/guthdx/test.mbiri.net/main/mbiri_logo.png" alt="Missouri Breaks Industries Research, Inc." class="footer-logo">
+                <div class="footer-text">
+                    <strong>Missouri Breaks Industries Research, Inc.</strong>
+                    This health assessment tool is provided by MBIRI as part of our commitment to creating opportunities for health in American Indian communities.
+                    <div class="footer-credit">
+                        Based on the American Heart Association's Life's Essential 8 framework for cardiovascular health.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function toggleInfo(id) {
+            const infoBox = document.getElementById(id);
+            infoBox.classList.toggle('hidden');
+        }
+
+        function calculateBMI() {
+            const height = parseFloat(document.getElementById('heightInput').value);
+            const weight = parseFloat(document.getElementById('weightInput').value);
+            const resultElement = document.getElementById('bmiResult');
+
+            if (!height || !weight || height <= 0 || weight <= 0) {
+                resultElement.textContent = 'Please enter valid height and weight.';
+                resultElement.style.color = '#EA9674';
+                return;
+            }
+
+            const bmi = (weight / (height * height)) * 703;
+            const bmiRounded = bmi.toFixed(1);
+
+            let category, points;
+            if (bmi < 25) {
+                category = 'Under 25';
+                points = 100;
+            } else if (bmi < 30) {
+                category = '25–29.9 (Overweight)';
+                points = 70;
+            } else if (bmi < 35) {
+                category = '30–34.9 (Obese Class I)';
+                points = 30;
+            } else if (bmi < 40) {
+                category = '35–39.9 (Obese Class II)';
+                points = 15;
+            } else {
+                category = '40+ (Obese Class III)';
+                points = 0;
+            }
+
+            resultElement.innerHTML = `Your BMI is <strong>${bmiRounded}</strong> (${category})<br>Select the matching option below.`;
+            resultElement.style.color = '#335941';
+        }
+
+        function calculateScore() {
+            const sections = ['bloodPressure', 'bloodSugar', 'cholesterol', 'diet', 'tobacco', 'bmi', 'activity', 'sleep'];
+            let totalScore = 0;
+            const scores = {};
+
+            // Check if all sections are completed
+            let allCompleted = true;
+            sections.forEach(section => {
+                const selected = document.querySelector(`input[name="${section}"]:checked`);
+                if (!selected) {
+                    allCompleted = false;
+                    return;
+                }
+                scores[section] = parseInt(selected.value);
+            });
+
+            if (!allCompleted) {
+                alert('Please complete all sections before calculating your score.');
+                return;
+            }
+
+            // Apply medication modifiers
+            if (document.getElementById('bpMeds').checked && scores.bloodPressure > 0) {
+                scores.bloodPressure = Math.max(0, scores.bloodPressure - 20);
+            }
+
+            if (document.getElementById('cholesterolMeds').checked && scores.cholesterol > 0) {
+                scores.cholesterol = Math.max(0, scores.cholesterol - 20);
+            }
+
+            if (document.getElementById('smokingInHome').checked && scores.tobacco > 0) {
+                scores.tobacco = Math.max(0, scores.tobacco - 20);
+            }
+
+            // Calculate total score
+            totalScore = Object.values(scores).reduce((sum, score) => sum + score, 0);
+
+            displayResults(totalScore, scores);
+        }
+
+        function displayResults(totalScore, scores) {
+            const resultsDiv = document.getElementById('results');
+            const totalScoreElement = document.getElementById('totalScore');
+            const scoreCategoryElement = document.getElementById('scoreCategory');
+            const scoreDescriptionElement = document.getElementById('scoreDescription');
+            const interpretationElement = document.getElementById('interpretation');
+
+            // Update total score
+            totalScoreElement.textContent = totalScore;
+
+            // Update individual scores
+            document.getElementById('bpScore').textContent = scores.bloodPressure;
+            document.getElementById('bsScore').textContent = scores.bloodSugar;
+            document.getElementById('cholScore').textContent = scores.cholesterol;
+            document.getElementById('dietScore').textContent = scores.diet;
+            document.getElementById('tobaccoScore').textContent = scores.tobacco;
+            document.getElementById('bmiScore').textContent = scores.bmi;
+            document.getElementById('activityScore').textContent = scores.activity;
+            document.getElementById('sleepScore').textContent = scores.sleep;
+
+            // Determine score category and styling
+            let category, description, className, interpretation;
+
+            if (totalScore > 600) {
+                category = 'Excellent Heart Health';
+                description = 'Scores over 600';
+                className = 'score-high';
+                interpretation = "You're likely doing a great job supporting your heart health. Keep up the good habits and keep checking in with your provider regularly.";
+            } else if (totalScore >= 400) {
+                category = 'Moderate Heart Health';
+                description = 'Scores between 400 and 600';
+                className = 'score-moderate';
+                interpretation = "There's some room to improve. Even small changes in diet, activity, sleep, or medication management can make a big difference over time.";
+            } else {
+                category = 'Heart Health At Risk';
+                description = 'Scores under 400';
+                className = 'score-low';
+                interpretation = "This could be a sign that your heart health is at risk. We strongly encourage you to talk to a healthcare provider. They can help you understand what's going on and work with you to create a plan for better health.";
+            }
+
+            scoreCategoryElement.textContent = category;
+            scoreCategoryElement.className = 'score-category ' + className;
+            totalScoreElement.className = 'score-display ' + className;
+            scoreDescriptionElement.textContent = description;
+            interpretationElement.textContent = interpretation;
+
+            // Show results with animation
+            resultsDiv.classList.add('show');
+            resultsDiv.scrollIntoView({ behavior: 'smooth' });
+        }
+
+        // Initialize when page loads
+        window.addEventListener('load', function() {
+            const button = document.getElementById('calculateBtn');
+            if (button) {
+                button.onclick = calculateScore;
+            }
+
+            // Add visual feedback for radio button selections
+            const radioButtons = document.querySelectorAll('input[type="radio"]');
+            radioButtons.forEach(radio => {
+                radio.addEventListener('change', function() {
+                    // Remove selected class from all options in this group
+                    const groupName = this.name;
+                    const groupOptions = document.querySelectorAll(`input[name="${groupName}"]`);
+                    groupOptions.forEach(r => {
+                        r.closest('.radio-option').classList.remove('selected');
+                    });
+                    // Add selected class to chosen option
+                    this.closest('.radio-option').classList.add('selected');
+                });
+            });
+        });
+    </script>
+
+</body>
+</html>
