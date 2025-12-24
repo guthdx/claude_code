@@ -1,0 +1,61 @@
+NetBird Authentication Migration - Backup Summary
+Created: December 3, 2025 at 13:30 UTC
+
+=== BACKUP FILES CREATED ===
+
+System Backup:
+  Location: /home/guthdx/netbird-backup-20251203-132956.tar.gz
+  Size: 82KB
+  Contains: Complete NetBird directory
+
+Database Backup:
+  Location: /home/guthdx/zitadel-backup-20251203-133007.sql
+  Size: 828KB
+  Contains: Zitadel PostgreSQL database dump
+
+Authentication State:
+  Location: /home/guthdx/auth-methods-before.txt
+  Contains: Current auth methods snapshot
+
+Login Policy:
+  Location: /home/guthdx/login-policy-before.txt
+  Contains: Zitadel login policy snapshot
+
+=== VERIFICATION COMMANDS ===
+
+Check backups exist:
+  ls -lh ~/netbird-backup-20251203-*.tar.gz
+  ls -lh ~/zitadel-backup-20251203-*.sql
+
+Verify NetBird containers running:
+  cd ~/netbird && docker compose ps
+
+Check current auth methods:
+  docker exec netbird-zdb-1 psql -U zitadel -d zitadel -c \
+    "SELECT user_id, method_type, state, creation_date \
+     FROM projections.user_auth_methods5 \
+     WHERE user_id = '349059759258730500';"
+
+=== CURRENT STATE ===
+
+Authentication: Microsoft Authenticator TOTP (active)
+User ID: 349059759258730500
+Login URL: https://netbird.iyeska.net/ui/console/users/me
+Username: admin@netbird.iyeska.net
+
+=== NEXT STEPS ===
+
+Phase 2: Migrate TOTP to 1Password (user action required)
+Phase 3: Register Touch ID and Face ID passkeys (user action required)
+Phase 4: Verify all methods work
+Phase 5: Update final documentation
+
+=== IMPORTANT NOTES ===
+
+- NO changes made to running system yet
+- Microsoft Authenticator still works
+- All backups successful
+- Safe to disconnect and resume later
+
+Full details in: ~/netbird/AUTHENTICATION_MIGRATION_STATUS.md
+Quick guide in: ~/netbird/MIGRATION_RESUME_QUICKSTART.md

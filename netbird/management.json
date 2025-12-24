@@ -1,0 +1,100 @@
+{
+    "Stuns": [
+        {
+            "Proto": "udp",
+            "URI": "stun:netbird.iyeska.net:3478",
+            "Username": "",
+            "Password": ""
+        }
+    ],
+    "TURNConfig": null,
+    "Relay": {
+        "Addresses": [
+            "rels://netbird.iyeska.net:443"
+        ],
+        "CredentialsTTL": "24h0m0s",
+        "Secret": "hKS6965pg7/lKT/uhMYLo9Zhb8UR7vQuRBv1CrWkBHU"
+    },
+    "Signal": {
+        "Proto": "https",
+        "URI": "netbird.iyeska.net:443",
+        "Username": "",
+        "Password": ""
+    },
+    "Datadir": "/var/lib/netbird/",
+    "DataStoreEncryptionKey": "mp6b4liza/Jfrf+SScc3a2iZtJl65FBGvsKlkIgPTB4=",
+    "HttpConfig": {
+        "LetsEncryptDomain": "",
+        "CertFile": "",
+        "CertKey": "",
+        "AuthAudience": "349059745618919428",
+        "AuthIssuer": "https://netbird.iyeska.net",
+        "AuthUserIDClaim": "",
+        "AuthKeysLocation": "https://netbird.iyeska.net/oauth/v2/keys",
+        "OIDCConfigEndpoint": "https://netbird.iyeska.net/.well-known/openid-configuration",
+        "IdpSignKeyRefreshEnabled": true,
+        "ExtraAuthAudience": ""
+    },
+    "IdpManagerConfig": {
+        "ManagerType": "zitadel",
+        "ClientConfig": {
+            "Issuer": "https://netbird.iyeska.net",
+            "TokenEndpoint": "https://netbird.iyeska.net/oauth/v2/token",
+            "ClientID": "netbird-service-account",
+            "ClientSecret": "iWvTEGYAehPQTZDP6iq2wsLF2HbwhqLfLurWaih3wV7lCvjJQlYR0ufcJiQrbFd8",
+            "GrantType": "client_credentials"
+        },
+        "ExtraConfig": {
+            "ManagementEndpoint": "https://netbird.iyeska.net/management/v1"
+        },
+        "Auth0ClientCredentials": null,
+        "AzureClientCredentials": null,
+        "KeycloakClientCredentials": null,
+        "ZitadelClientCredentials": null
+    },
+    "DeviceAuthorizationFlow": {
+        "Provider": "hosted",
+        "ProviderConfig": {
+            "ClientID": "349059747883843588",
+            "ClientSecret": "",
+            "Domain": "netbird.iyeska.net",
+            "Audience": "349059747883843588",
+            "TokenEndpoint": "https://netbird.iyeska.net/oauth/v2/token",
+            "DeviceAuthEndpoint": "https://netbird.iyeska.net/oauth/v2/device_authorization",
+            "AuthorizationEndpoint": "",
+            "Scope": "openid",
+            "UseIDToken": false,
+            "RedirectURLs": null,
+            "DisablePromptLogin": false,
+            "LoginFlag": 0
+        }
+    },
+    "PKCEAuthorizationFlow": {
+        "ProviderConfig": {
+            "ClientID": "349059747883843588",
+            "ClientSecret": "",
+            "Domain": "",
+            "Audience": "349059747883843588",
+            "TokenEndpoint": "https://netbird.iyeska.net/oauth/v2/token",
+            "DeviceAuthEndpoint": "",
+            "AuthorizationEndpoint": "https://netbird.iyeska.net/oauth/v2/authorize",
+            "Scope": "openid profile email offline_access",
+            "UseIDToken": false,
+            "RedirectURLs": [
+                "http://localhost:53000/",
+                "http://localhost:54000/"
+            ],
+            "DisablePromptLogin": false,
+            "LoginFlag": 0
+        }
+    },
+    "StoreConfig": {
+        "Engine": ""
+    },
+    "ReverseProxy": {
+        "TrustedHTTPProxies": null,
+        "TrustedHTTPProxiesCount": 0,
+        "TrustedPeers": null
+    },
+    "DisableDefaultPolicy": false
+}

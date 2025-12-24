@@ -1,0 +1,55 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <defs>
+    <linearGradient id="goldGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#d4af37;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#b08d26;stop-opacity:1" />
+    </linearGradient>
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="4" stdDeviation="4" flood-color="#000" flood-opacity="0.5"/>
+    </filter>
+  </defs>
+  
+  <!-- Background: Stone/Earth Color -->
+  <rect width="512" height="512" rx="115" fill="#0c0a09" />
+  
+  <!-- Group centered -->
+  <g transform="translate(256, 256) scale(0.85)">
+    
+    <!-- Roman Laurel Wreath (Stylized) -->
+    <g fill="url(#goldGrad)" filter="url(#shadow)">
+      <!-- Left Branch -->
+      <path d="M-180 100 Q -160 180 -100 220 Q -150 150 -140 50 Z" />
+      <path d="M-160 20 Q -150 100 -90 140 Q -130 80 -120 -20 Z" />
+      <path d="M-130 -60 Q -130 20 -70 60 Q -110 0 -100 -100 Z" />
+      <path d="M-90 -140 Q -100 -60 -40 -20 Q -80 -80 -60 -180 Z" />
+      <!-- Stem Left -->
+      <path d="M0 240 Q -120 240 -180 0" fill="none" stroke="url(#goldGrad)" stroke-width="12" stroke-linecap="round" />
+
+      <!-- Right Branch (Mirrored) -->
+      <path d="M180 100 Q 160 180 100 220 Q 150 150 140 50 Z" />
+      <path d="M160 20 Q 150 100 90 140 Q 130 80 120 -20 Z" />
+      <path d="M130 -60 Q 130 20 70 60 Q 110 0 100 -100 Z" />
+      <path d="M90 -140 Q 100 -60 40 -20 Q 80 -80 60 -180 Z" />
+      <!-- Stem Right -->
+      <path d="M0 240 Q 120 240 180 0" fill="none" stroke="url(#goldGrad)" stroke-width="12" stroke-linecap="round" />
+    </g>
+
+    <!-- The Lakota Bison (Geometric/Stylized) -->
+    <g fill="url(#goldGrad)" filter="url(#shadow)" transform="translate(0, -20)">
+      <!-- Forehead / Horn base -->
+      <path d="M-60 -80 L 60 -80 L 50 -20 L -50 -20 Z" />
+      <!-- Snout -->
+      <path d="M-50 -20 L 50 -20 L 30 80 L -30 80 Z" />
+      <!-- Horns (Curved upwards like a crescent/wreath integration) -->
+      <path d="M-60 -70 Q -120 -80 -140 -140 L -110 -150 Q -100 -100 -60 -90 Z" />
+      <path d="M60 -70 Q 120 -80 140 -140 L 110 -150 Q 100 -100 60 -90 Z" />
+      <!-- Eyes -->
+      <circle cx="-30" cy="-10" r="5" fill="#0c0a09" />
+      <circle cx="30" cy="-10" r="5" fill="#0c0a09" />
+      <!-- Medicine Wheel / Sun symbol on forehead -->
+      <circle cx="0" cy="-50" r="12" fill="#0c0a09" />
+      <path d="M0 -62 L 0 -38 M-12 -50 L 12 -50" stroke="url(#goldGrad)" stroke-width="4" />
+    </g>
+    
+  </g>
+</svg>

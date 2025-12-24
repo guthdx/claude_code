@@ -1,0 +1,7 @@
+{
+  "name": "Aurelius Echo",
+  "description": "A Stoic companion that delivers wisdom from Marcus Aurelius based on your daily schedule and physical location.",
+  "requestFramePermissions": [
+    "geolocation"
+  ]
+}
