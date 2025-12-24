@@ -46,8 +46,8 @@ Vite build failed without `index.css` (imported by `index.tsx`). Created empty f
 
 ### Step 1: Environment Setup
 ```bash
-# API key already configured in ~/aurelius-echo/.env.local:
-GEMINI_API_KEY=AIzaSyBYsBDx2mWxNEsDVutXjKe4WemLQTTsUlc
+# API key configured in ~/aurelius-echo/.env.local (get from Google AI Studio):
+GEMINI_API_KEY=your-gemini-api-key-here
 ```
 
 ### Step 2: Create Deployment Directory
