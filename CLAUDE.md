@@ -81,12 +81,12 @@ claude
 ```
 
 Then in Claude Code, say:
-> "I just cloned this repository. Please read CLAUDE.md and SESSION_STATE.md, then set up all 5 MCP servers. The environment variables are already set."
+> "I just cloned this repository. Please read CLAUDE.md and SESSION_STATE.md, then set up all 7 MCP servers. The environment variables are already set."
 
 **4. Verify Setup:**
 ```bash
 claude mcp list
-# Should show 5 servers: perplexity, memory, filesystem, docker, github
+# Should show 7 servers: memory, filesystem, docker, github, cloudflare, context7
 ```
 
 **Setup Time:** ~15 minutes (tested and verified)
@@ -149,6 +149,15 @@ All configured and operational. Verify status: `claude mcp list`
 5. **GitHub** - Repository management, PRs, issues
    - Package: `@modelcontextprotocol/server-github`
    - API key: `GITHUB_TOKEN` in `~/.zshrc`
+
+6. **Cloudflare** - Workers, KV, R2, D1 database management
+   - Package: `@cloudflare/mcp-server-cloudflare`
+   - API key: `CLOUDFLARE_API_TOKEN` in `~/.zshrc`
+
+7. **Context7** - Up-to-date library documentation for prompts
+   - Package: `@upstash/context7-mcp`
+   - Usage: Add `use context7` to prompts for current docs
+   - API key configured for higher rate limits
 
 **Additional MCP Servers Available (Not Installed)**:
 - SQLite - For status-dashboard D1 database work
@@ -341,6 +350,34 @@ cd ~/netbird
 docker compose ps
 docker compose logs -f
 ```
+
+### n8n Workflow Automation
+
+Self-hosted n8n at https://n8n.iyeska.net
+
+**Installation** (on Iyeska Ubuntu Server - 68.168.225.52:2022):
+- Installed via npm (NOT Docker)
+- Managed by PM2 process manager
+- Binary: `/home/guthdx/.nodejs_global/bin/n8n`
+- Data: `/home/guthdx/.n8n/`
+
+**Upgrade Process**:
+```bash
+ssh -p 2022 guthdx@68.168.225.52
+pm2 stop n8n
+npm update -g n8n
+pm2 start n8n
+pm2 save
+```
+
+**Management**:
+```bash
+pm2 list                    # Check status
+pm2 logs n8n --lines 50     # View logs
+n8n --version               # Check version (use full path if needed)
+```
+
+**Current Version**: 2.1.4 (updated Dec 2025)
 
 ## Common Development Patterns
 
