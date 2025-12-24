@@ -69,7 +69,7 @@ git config --global credential.helper osxkeychain
 
 ## Why This Matters:
 
-The token `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` was embedded in the git configuration on M1. This means:
+The token `ghp_XXXX_REDACTED_OLD_TOKEN_XXXX` was embedded in the git configuration on M1. This means:
 - It's visible in plaintext in `.git/config`
 - It may be in shell history
 - It could be in git logs or error messages

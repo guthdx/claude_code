@@ -120,7 +120,7 @@ Have these ready when running the script:
 
 2. **GitHub Personal Access Token**
    - Get from: https://github.com/settings/tokens
-   - Current: `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`
+   - Current: `ghp_XXXX_REDACTED_OLD_TOKEN_XXXX`
    - ⚠️ **Rotate after setup** (see SECURITY_WARNING.md)
 
 The script will prompt for these during setup.

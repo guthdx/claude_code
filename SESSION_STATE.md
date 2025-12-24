@@ -142,7 +142,7 @@ See `SECURITY_WARNING.md` for complete security audit and next steps.
 
 1. **Rotate Exposed GitHub Token** (10 minutes) - RECOMMENDED
    - Go to https://github.com/settings/tokens
-   - Delete token `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`
+   - Delete token `ghp_XXXX_REDACTED_OLD_TOKEN_XXXX`
    - Generate new token with same scopes (repo, workflow, read:org)
    - Update on ALL 4 machines:
      - `~/dotfiles/secrets.env`
@@ -225,7 +225,7 @@ See `SECURITY_WARNING.md` for complete security audit and next steps.
 
 ```bash
 export PERPLEXITY_API_KEY="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"
-export GITHUB_TOKEN="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"
+export GITHUB_TOKEN="ghp_XXXX_REDACTED_OLD_TOKEN_XXXX"
 ```
 
 **Security Note**: These are in plaintext in `~/.zshrc`. For Tier 2 dotfiles setup, consider:
@@ -630,7 +630,7 @@ This session will be considered "complete" when:
 
 6. **Git Remote Security**: NEVER use tokens in git remote URLs (`https://TOKEN@github.com/...`). Always use SSH (`git@github.com:...`) or HTTPS with credential helper to avoid token exposure in plaintext config files.
 
-7. **Token Rotation Pending**: The exposed token `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` should be rotated as a precautionary measure, even though the exposure was limited to local git config.
+7. **Token Rotation Pending**: The exposed token `ghp_XXXX_REDACTED_OLD_TOKEN_XXXX` should be rotated as a precautionary measure, even though the exposure was limited to local git config.
 
 ---
 

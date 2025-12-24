@@ -14,7 +14,7 @@ The GitHub personal access token is **embedded in plaintext** in the git remote 
 
 ```bash
 git remote -v
-# Shows: https://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@github.com/guthdx/claude_code.git
+# Shows: https://ghp_XXXX_REDACTED_OLD_TOKEN_XXXX@github.com/guthdx/claude_code.git
 ```
 
 **This is a security vulnerability because:**
@@ -59,7 +59,7 @@ git config --global credential.helper osxkeychain
 
 ### 1. Rotate the Exposed Token
 
-The current token `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` should be considered **compromised**.
+The current token `ghp_XXXX_REDACTED_OLD_TOKEN_XXXX` should be considered **compromised**.
 
 **⚠️ RECOMMENDATION: YES - Rotate the token immediately**
 
@@ -71,7 +71,7 @@ The current token `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` should be considere
 
 **Action Steps:**
 1. Go to https://github.com/settings/tokens
-2. Delete token `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`
+2. Delete token `ghp_XXXX_REDACTED_OLD_TOKEN_XXXX`
 3. Generate new token with same scopes:
    - `repo` (full control of private repositories)
    - `workflow` (if using GitHub Actions)
@@ -100,7 +100,7 @@ history -c
 
 The token is also stored in `~/.zshrc`:
 ```bash
-export GITHUB_TOKEN="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"
+export GITHUB_TOKEN="ghp_XXXX_REDACTED_OLD_TOKEN_XXXX"
 ```
 
 **This is acceptable for:**
@@ -132,7 +132,7 @@ After fixing, verify:
 - [✅] Can push without token in URL: Ready to test
 - [✅] Updated status table in this file
 
-**FIXED**: Token `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` was embedded in HTTPS URL. Switched to SSH authentication on 2025-11-29.
+**FIXED**: Token `ghp_XXXX_REDACTED_OLD_TOKEN_XXXX` was embedded in HTTPS URL. Switched to SSH authentication on 2025-11-29.
 
 ### Mac Mini (iyeska-mac-mini / code.iyeska.net) - ✅ ALREADY SECURE:
 - [✅] Git remote uses SSH: `git@github.com:guthdx/claude_code.git`
@@ -245,4 +245,4 @@ git config --global credential.helper osxkeychain
 ---
 
 **Last Updated**: 2025-11-29 by Claude Code (All machines verified secure)
-**Next Action**: Rotate the exposed token `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` at https://github.com/settings/tokens
+**Next Action**: Rotate the exposed token `ghp_XXXX_REDACTED_OLD_TOKEN_XXXX` at https://github.com/settings/tokens

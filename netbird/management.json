@@ -13,7 +13,7 @@
             "rels://netbird.iyeska.net:443"
         ],
         "CredentialsTTL": "24h0m0s",
-        "Secret": "hKS6965pg7/lKT/uhMYLo9Zhb8UR7vQuRBv1CrWkBHU"
+        "Secret": "<REPLACE_WITH_ACTUAL_SECRET>"
     },
     "Signal": {
         "Proto": "https",
@@ -22,7 +22,7 @@
         "Password": ""
     },
     "Datadir": "/var/lib/netbird/",
-    "DataStoreEncryptionKey": "mp6b4liza/Jfrf+SScc3a2iZtJl65FBGvsKlkIgPTB4=",
+    "DataStoreEncryptionKey": "<REPLACE_WITH_ACTUAL_KEY>",
     "HttpConfig": {
         "LetsEncryptDomain": "",
         "CertFile": "",
@@ -41,7 +41,7 @@
             "Issuer": "https://netbird.iyeska.net",
             "TokenEndpoint": "https://netbird.iyeska.net/oauth/v2/token",
             "ClientID": "netbird-service-account",
-            "ClientSecret": "iWvTEGYAehPQTZDP6iq2wsLF2HbwhqLfLurWaih3wV7lCvjJQlYR0ufcJiQrbFd8",
+            "ClientSecret": "<REPLACE_WITH_ACTUAL_SECRET>",
             "GrantType": "client_credentials"
         },
         "ExtraConfig": {
