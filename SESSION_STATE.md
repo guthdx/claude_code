@@ -1,6 +1,6 @@
 # Session State Document
-**Last Updated**: 2025-11-27
-**Session**: All 4 Machines Operational - Cross-Machine Sync Workflow Established
+**Last Updated**: 2025-12-24
+**Session**: Tech Stack Skill Created + Documentation Sync
 
 ---
 
@@ -33,9 +33,54 @@ See `SECURITY_WARNING.md` for complete security audit and next steps.
 
 ---
 
-## 🎯 Current Status: Cross-Machine Sync Successfully Tested on M1
+## 🎯 Current Status: Tech Stack Skill Created (Dec 24, 2025)
 
-### What We Just Accomplished (This Session)
+### What We Just Accomplished (Dec 24, 2025 Session)
+
+1. **Created `/tech-stack` Slash Command** ✅
+   - Location: `.claude/commands/tech-stack.md`
+   - Invoke with `/tech-stack` to display preferred stack
+   - References GitHub template as authoritative source
+
+2. **Created Tech Stack Advisor Skill** ✅
+   - Location: `.claude/skills/tech-stack-advisor/SKILL.md`
+   - Auto-activates when discussing new projects or architecture
+   - Recommends FastAPI + React + PostgreSQL stack
+
+3. **Saved Preferred Tech Stack to Memory** ✅
+   - 3 entities: "Preferred Tech Stack", "FastAPI Backend Pattern", "React Frontend Pattern"
+   - GitHub template: https://github.com/guthdx/fastapi-react-postgres-template
+   - Persists across sessions via Memory MCP
+
+4. **Updated MCP Servers (7 total)** ✅
+   - Added: Cloudflare, Context7
+   - Total: memory, filesystem, docker, github, cloudflare, context7, perplexity (removed)
+
+5. **Token Rotation Completed** ✅
+   - Rotated GitHub PAT, Cloudflare API token, n8n API key
+   - New tokens stored in `~/.zshrc` and `~/dotfiles/secrets.env`
+   - Old exposed tokens invalidated
+
+6. **n8n Upgraded** ✅
+   - Upgraded from v1.121.2 to v2.1.4
+   - PM2 upgraded from 5.4.3 to 6.0.14
+
+### Preferred Tech Stack Summary
+
+| Layer | Technology |
+|-------|------------|
+| Backend | FastAPI 0.115+ + SQLAlchemy 2.0 (async) + Alembic |
+| Frontend | React 18 + Vite 5 + Axios |
+| Database | PostgreSQL 16 Alpine |
+| Infrastructure | Docker Compose + Nginx |
+
+**Template Repo**: https://github.com/guthdx/fastapi-react-postgres-template
+
+---
+
+## 📜 Previous Session: Cross-Machine Sync (Nov 27, 2025)
+
+### What We Accomplished (Nov 27 Session)
 
 1. **Added Perplexity MCP Server** ✅
    - Installed `@perplexity-ai/mcp-server`
@@ -84,17 +129,20 @@ See `SECURITY_WARNING.md` for complete security audit and next steps.
 
 ## 📊 MCP Servers Status - All Machines
 
-**Last Updated:** 2025-11-27 (User confirmed all 4 machines operational)
+**Last Updated:** 2025-12-24 (7 servers configured on main Mac)
 
-### Main Mac (guthdx)
+### Main Mac (guthdx) - Primary Development
 
-| Server | Package | Status | Setup Method |
-|--------|---------|--------|--------------|
-| perplexity | @perplexity-ai/mcp-server | ✅ Connected | Manual |
-| memory | @modelcontextprotocol/server-memory | ✅ Connected | Manual |
-| filesystem | @modelcontextprotocol/server-filesystem | ✅ Connected | Manual |
-| docker | docker-mcp | ✅ Connected | Manual |
-| github | @modelcontextprotocol/server-github | ✅ Connected | Manual |
+| Server | Package | Status | Notes |
+|--------|---------|--------|-------|
+| memory | @modelcontextprotocol/server-memory | ✅ Connected | Knowledge graph persistence |
+| filesystem | @modelcontextprotocol/server-filesystem | ✅ Connected | Secure file operations |
+| docker | docker-mcp | ✅ Connected | Container management |
+| github | @modelcontextprotocol/server-github | ✅ Connected | Repo/PR/issue management |
+| cloudflare | @cloudflare/mcp-server-cloudflare | ✅ Connected | Workers, KV, R2, D1 |
+| context7 | @upstash/context7-mcp | ✅ Connected | Library docs (use context7) |
+
+**Note**: Perplexity removed (using WebSearch instead)
 
 ### M1 MacBook Pro
 
@@ -138,17 +186,24 @@ See `SECURITY_WARNING.md` for complete security audit and next steps.
 
 ## 🚧 Pending Tasks
 
+### COMPLETED (Dec 2025)
+
+1. ~~**Rotate Exposed GitHub Token**~~ ✅ DONE (Dec 24, 2025)
+   - New tokens generated for GitHub, Cloudflare, n8n
+   - Updated on main Mac in `~/.zshrc` and `~/dotfiles/secrets.env`
+   - Old tokens invalidated
+
+2. ~~**Create Tech Stack Skill**~~ ✅ DONE (Dec 24, 2025)
+   - `/tech-stack` command created
+   - Auto-discovery skill created
+   - Memory entities saved
+
 ### HIGH PRIORITY
 
-1. **Rotate Exposed GitHub Token** (10 minutes) - RECOMMENDED
-   - Go to https://github.com/settings/tokens
-   - Delete token `ghp_XXXX_REDACTED_OLD_TOKEN_XXXX`
-   - Generate new token with same scopes (repo, workflow, read:org)
-   - Update on ALL 4 machines:
-     - `~/dotfiles/secrets.env`
-     - `~/.zshrc` or `~/.bashrc`
-   - Test MCP servers still connect on each machine
-   - See `SECURITY_WARNING.md` for rationale
+1. **Sync MCP Servers to Other Machines** (30 minutes)
+   - M1 MacBook Pro, Mac Mini, Ubuntu Server still have old 5-server config
+   - Need to add: Cloudflare, Context7
+   - Update environment variables on each machine
 
 ### MEDIUM PRIORITY
 
