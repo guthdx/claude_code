@@ -1,0 +1,48 @@
+{
+  "mcpServers": {
+    "cloudflare": {
+      "type": "stdio",
+      "command": "npx",
+      "args": [
+        "-y",
+        "@cloudflare/mcp-server-cloudflare",
+        "run"
+      ],
+      "env": {
+        "CLOUDFLARE_API_TOKEN": "${CLOUDFLARE_API_TOKEN}",
+        "CLOUDFLARE_ACCOUNT_ID": "${CLOUDFLARE_ACCOUNT_ID}"
+      }
+    },
+    "docker": {
+      "type": "stdio",
+      "command": "npx",
+      "args": [
+        "-y",
+        "docker-mcp"
+      ],
+      "env": {
+        "DOCKER_MCP_LOCAL": "true"
+      }
+    },
+    "n8n": {
+      "type": "stdio",
+      "command": "npx",
+      "args": [
+        "-y",
+        "@leonardsellem/n8n-mcp-server"
+      ],
+      "env": {
+        "N8N_API_URL": "https://n8n.iyeska.net/api/v1",
+        "N8N_API_KEY": "${N8N_API_KEY}"
+      }
+    },
+    "memory": {
+      "type": "stdio",
+      "command": "npx",
+      "args": [
+        "-y",
+        "@modelcontextprotocol/server-memory"
+      ]
+    }
+  }
+}
