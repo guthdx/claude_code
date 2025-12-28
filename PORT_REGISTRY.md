@@ -1,7 +1,31 @@
 # Port Registry
 
-**Last Updated**: 2025-12-27
+**Last Updated**: 2025-12-28
 **Purpose**: Centralized port allocation to prevent conflicts across all Iyeska projects
+
+---
+
+## Traefik Development Proxy (Recommended)
+
+Instead of remembering port numbers, use Traefik for `*.localhost` routing:
+
+```bash
+# Start Traefik (once, leave running)
+cd ~/terminal_projects/claude_code/traefik && docker compose up -d
+```
+
+| Project | Frontend URL | Backend URL |
+|---------|-------------|-------------|
+| csep_barter_bank | http://csep.localhost | http://csep-api.localhost |
+| cyoa-honky-tonk | http://cyoa.localhost | http://cyoa-api.localhost |
+| dx_clan | http://dxclan.localhost | http://dxclan-api.localhost |
+| dna_spectrum | http://dna.localhost | - |
+| aurelius_echo | http://stoic.localhost | - |
+| wowasi_ya | http://wowasi.localhost | - |
+
+**Dashboard**: http://localhost:8080 or http://traefik.localhost
+
+See `traefik/README.md` for setup instructions per project.
 
 ---
 

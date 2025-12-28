@@ -1,0 +1,114 @@
+# CSEP Development Docker Compose
+# Usage: docker compose up -d
+#
+# Access via Traefik (recommended):
+#   Frontend: http://csep.localhost
+#   Backend:  http://csep-api.localhost
+#
+# Direct port access (fallback):
+#   Frontend: http://localhost:${FRONTEND_PORT:-5174}
+#   Backend:  http://localhost:${BACKEND_PORT:-8002}
+
+services:
+  # PostgreSQL Database (internal only - not exposed to host)
+  db:
+    image: postgres:16-alpine
+    container_name: csep_db
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-postgres}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-postgres}
+      POSTGRES_DB: ${POSTGRES_DB:-csep_db}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    ports:
+      - "${POSTGRES_PORT:-5433}:5432"  # Unique port to avoid conflicts
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-postgres} -d ${POSTGRES_DB:-csep_db}"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+    networks:
+      - default
+
+  # FastAPI Backend
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: csep_backend
+    restart: unless-stopped
+    environment:
+      - POSTGRES_USER=${POSTGRES_USER:-postgres}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD:-postgres}
+      - POSTGRES_SERVER=db
+      - POSTGRES_PORT=5432
+      - POSTGRES_DB=${POSTGRES_DB:-csep_db}
+      - BACKEND_CORS_ORIGINS=${BACKEND_CORS_ORIGINS:-http://localhost:5174,http://csep.localhost,http://csep-api.localhost}
+      - SECRET_KEY=${SECRET_KEY:-dev-secret-key-change-in-production}
+      - AUTH0_DOMAIN=${AUTH0_DOMAIN:-}
+      - AUTH0_CLIENT_ID=${AUTH0_CLIENT_ID:-}
+      - AUTH0_CLIENT_SECRET=${AUTH0_CLIENT_SECRET:-}
+      - AUTH0_AUDIENCE=${AUTH0_AUDIENCE:-}
+      - FRONTEND_URL=${FRONTEND_URL:-http://csep.localhost}
+    ports:
+      - "${BACKEND_PORT:-8002}:8000"  # Unique port to avoid conflicts
+    depends_on:
+      db:
+        condition: service_healthy
+    volumes:
+      - ./backend:/app
+    command: uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:8000/api/v1/health')"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 10s
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.csep-api.rule=Host(`csep-api.localhost`)"
+      - "traefik.http.services.csep-api.loadbalancer.server.port=8000"
+    networks:
+      - traefik-dev
+      - default
+
+  # React Frontend (Development)
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+      target: development
+    container_name: csep_frontend
+    restart: unless-stopped
+    environment:
+      - VITE_API_BASE_URL=${VITE_API_BASE_URL:-http://csep-api.localhost}
+    ports:
+      - "${FRONTEND_PORT:-5174}:5173"  # Unique port to avoid conflicts
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules
+    depends_on:
+      - backend
+    # Health check disabled - Vite dev server doesn't respond well to wget --spider
+    # healthcheck:
+    #   test: ["CMD", "wget", "-q", "--spider", "http://localhost:5173/"]
+    #   interval: 30s
+    #   timeout: 10s
+    #   retries: 3
+    #   start_period: 15s
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.csep.rule=Host(`csep.localhost`)"
+      - "traefik.http.services.csep.loadbalancer.server.port=5173"
+    networks:
+      - traefik-dev
+      - default
+
+volumes:
+  postgres_data:
+    name: csep_postgres_data
+
+networks:
+  traefik-dev:
+    external: true

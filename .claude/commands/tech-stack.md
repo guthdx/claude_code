@@ -88,11 +88,21 @@ project/
 - **CORS**: Custom validator accepts comma-separated string OR list
 - **Health checks**: All services have Docker health checks
 - **Dependencies**: Backend waits for `db` service_healthy
+- **Traefik**: All projects use `*.localhost` routing in development
 
 ### Quick Start (New Project)
 ```bash
+# 1. Ensure Traefik is running
+cd ~/terminal_projects/claude_code/traefik && docker compose up -d
+
+# 2. Clone template
 git clone https://github.com/guthdx/fastapi-react-postgres-template.git my-project
 cd my-project
+
+# 3. Check PORT_REGISTRY.md for available ports
+cat ~/terminal_projects/claude_code/PORT_REGISTRY.md
+
+# 4. Configure and start
 cp .env.production.example .env
 # Edit .env with your settings
 docker compose -f docker-compose.production.yml up -d --build
@@ -103,10 +113,77 @@ docker compose -f docker-compose.production.yml up -d --build
 |----------|-------------|
 | `COMPOSE_PROJECT_NAME` | Docker project name |
 | `POSTGRES_PASSWORD` | Database password (required) |
-| `BACKEND_PORT` | Backend port (default: 8000) |
-| `FRONTEND_PORT` | Frontend port (default: 5173) |
+| `POSTGRES_PORT` | Database port (check PORT_REGISTRY.md) |
+| `BACKEND_PORT` | Backend port (check PORT_REGISTRY.md) |
+| `FRONTEND_PORT` | Frontend port (check PORT_REGISTRY.md) |
 | `VITE_API_BASE_URL` | Frontend's API base URL |
-| `BACKEND_CORS_ORIGINS` | Allowed CORS origins |
+| `BACKEND_CORS_ORIGINS` | Allowed CORS origins (include .localhost) |
 
-### Working Example
-Local: `~/terminal_projects/claude_code/cyoa-honky-tonk`
+### Traefik Development Routing
+
+Add to `docker-compose.yml`:
+```yaml
+services:
+  backend:
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.PROJECTNAME-api.rule=Host(`PROJECTNAME-api.localhost`)"
+      - "traefik.http.services.PROJECTNAME-api.loadbalancer.server.port=8000"
+    networks:
+      - traefik-dev
+      - default
+
+  frontend:
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.PROJECTNAME.rule=Host(`PROJECTNAME.localhost`)"
+      - "traefik.http.services.PROJECTNAME.loadbalancer.server.port=5173"
+    networks:
+      - traefik-dev
+      - default
+
+networks:
+  traefik-dev:
+    external: true
+```
+
+Access via:
+- `http://PROJECTNAME.localhost` (frontend)
+- `http://PROJECTNAME-api.localhost` (backend)
+
+### Port Management
+
+**ALWAYS check** `~/terminal_projects/claude_code/PORT_REGISTRY.md` before allocating ports!
+
+Reserved ranges:
+- PostgreSQL: 5432-5439
+- Backend APIs: 8000-8099
+- Vite frontends: 5173-5179
+- Next.js: 3000-3099
+
+### Health Check Patterns
+
+**FastAPI** (use Python, not curl):
+```yaml
+healthcheck:
+  test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:8000/api/v1/health')"]
+  interval: 30s
+  timeout: 10s
+  retries: 3
+  start_period: 10s
+```
+
+**PostgreSQL**:
+```yaml
+healthcheck:
+  test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-postgres}"]
+  interval: 5s
+  timeout: 5s
+  retries: 5
+```
+
+**Vite Dev**: Skip health checks (doesn't work well with wget/curl)
+
+### Working Examples
+- `~/terminal_projects/claude_code/cyoa-honky-tonk` - Original stack
+- `~/terminal_projects/claude_code/csep_barter_bank` - Traefik-enabled

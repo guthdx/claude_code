@@ -1,0 +1,117 @@
+# Traefik Development Reverse Proxy
+# Purpose: Route *.localhost domains to Docker containers without port conflicts
+#
+# Usage:
+#   1. Start Traefik: docker compose up -d
+#   2. Add labels to your project's docker-compose.yml (see examples below)
+#   3. Access via: http://projectname.localhost
+#
+# Dashboard: http://localhost:8080
+
+services:
+  traefik:
+    image: traefik:v3.2
+    container_name: traefik-dev
+    restart: unless-stopped
+    command:
+      # API and Dashboard
+      - "--api.insecure=true"
+      - "--api.dashboard=true"
+
+      # Docker provider
+      - "--providers.docker=true"
+      - "--providers.docker.exposedbydefault=false"
+      - "--providers.docker.network=traefik-dev"
+
+      # Entrypoints
+      - "--entrypoints.web.address=:80"
+
+      # Logging (set to DEBUG for troubleshooting)
+      - "--log.level=INFO"
+
+    ports:
+      - "80:80"      # HTTP entrypoint
+      - "8080:8080"  # Dashboard
+
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+
+    networks:
+      - traefik-dev
+
+    labels:
+      # Dashboard routing (optional - access via localhost:8080 anyway)
+      - "traefik.enable=true"
+      - "traefik.http.routers.dashboard.rule=Host(`traefik.localhost`)"
+      - "traefik.http.routers.dashboard.service=api@internal"
+
+networks:
+  traefik-dev:
+    name: traefik-dev
+    driver: bridge
+
+# =============================================================================
+# HOW TO ADD YOUR PROJECTS
+# =============================================================================
+#
+# In your project's docker-compose.yml, add:
+#
+# services:
+#   frontend:
+#     # ... your existing config ...
+#     labels:
+#       - "traefik.enable=true"
+#       - "traefik.http.routers.PROJECTNAME.rule=Host(`PROJECTNAME.localhost`)"
+#       - "traefik.http.services.PROJECTNAME.loadbalancer.server.port=80"
+#     networks:
+#       - traefik-dev
+#       - default
+#
+#   backend:
+#     # ... your existing config ...
+#     labels:
+#       - "traefik.enable=true"
+#       - "traefik.http.routers.PROJECTNAME-api.rule=Host(`PROJECTNAME-api.localhost`)"
+#       - "traefik.http.services.PROJECTNAME-api.loadbalancer.server.port=8000"
+#     networks:
+#       - traefik-dev
+#       - default
+#
+#   db:
+#     # NO labels, NO traefik-dev network - stays internal
+#     networks:
+#       - default
+#
+# networks:
+#   traefik-dev:
+#     external: true
+#
+# =============================================================================
+# EXAMPLE PROJECT ROUTES (once configured)
+# =============================================================================
+#
+# cyoa-honky-tonk:
+#   http://cyoa.localhost        -> frontend
+#   http://cyoa-api.localhost    -> backend (FastAPI)
+#
+# csep_barter_bank:
+#   http://csep.localhost        -> frontend
+#   http://csep-api.localhost    -> backend (FastAPI)
+#
+# dx_clan:
+#   http://dxclan.localhost      -> frontend
+#   http://dxclan-api.localhost  -> backend (FastAPI)
+#
+# dna_spectrum:
+#   http://dna.localhost         -> Next.js app
+#
+# aurelius_echo:
+#   http://stoic.localhost       -> Express app
+#
+# wowasi_ya:
+#   http://wowasi.localhost      -> FastAPI app
+#
+# Dashboard:
+#   http://traefik.localhost     -> Traefik dashboard
+#   http://localhost:8080        -> Traefik dashboard (direct)
+#

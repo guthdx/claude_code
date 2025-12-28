@@ -61,7 +61,119 @@ docker compose -f docker-compose.production.yml up -d --build
 3. **Health checks everywhere**: db, backend, frontend all have health endpoints
 4. **Docker-first**: Production uses docker-compose.production.yml
 5. **Nginx for frontend**: Multi-stage build, serves static React build
+6. **Traefik for local dev**: Route via `*.localhost` domains instead of port numbers
 
-## Local Working Example
+## Traefik Development Proxy (Required for New Projects)
 
-`~/terminal_projects/claude_code/cyoa-honky-tonk` demonstrates this stack in action.
+All new projects MUST include Traefik labels for local development routing.
+
+### Start Traefik First (Once)
+```bash
+cd ~/terminal_projects/claude_code/traefik && docker compose up -d
+```
+
+### Add to docker-compose.yml
+```yaml
+services:
+  backend:
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.PROJECTNAME-api.rule=Host(`PROJECTNAME-api.localhost`)"
+      - "traefik.http.services.PROJECTNAME-api.loadbalancer.server.port=8000"
+    networks:
+      - traefik-dev
+      - default
+
+  frontend:
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.PROJECTNAME.rule=Host(`PROJECTNAME.localhost`)"
+      - "traefik.http.services.PROJECTNAME.loadbalancer.server.port=5173"
+    networks:
+      - traefik-dev
+      - default
+
+  db:
+    # NO Traefik labels - database stays internal
+    networks:
+      - default
+
+networks:
+  traefik-dev:
+    external: true
+```
+
+### Access Pattern
+- Frontend: `http://PROJECTNAME.localhost`
+- Backend API: `http://PROJECTNAME-api.localhost`
+- Dashboard: `http://traefik.localhost` or `http://localhost:8080`
+
+## Port Management
+
+### PORT_REGISTRY.md
+Always check `~/terminal_projects/claude_code/PORT_REGISTRY.md` before allocating ports.
+
+### Reserved Port Ranges
+| Range | Purpose |
+|-------|---------|
+| 5432-5439 | PostgreSQL databases |
+| 8000-8099 | Backend APIs |
+| 5173-5179 | Vite dev servers |
+| 3000-3099 | Next.js / other frontends |
+
+### Environment Variable Pattern
+```yaml
+ports:
+  - "${POSTGRES_PORT:-5433}:5432"   # Use env var with unique default
+  - "${BACKEND_PORT:-8002}:8000"
+  - "${FRONTEND_PORT:-5174}:5173"
+```
+
+## Health Check Patterns
+
+### FastAPI Backend (Python)
+```yaml
+healthcheck:
+  test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:8000/api/v1/health')"]
+  interval: 30s
+  timeout: 10s
+  retries: 3
+  start_period: 10s
+```
+
+### PostgreSQL Database
+```yaml
+healthcheck:
+  test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-postgres}"]
+  interval: 5s
+  timeout: 5s
+  retries: 5
+```
+
+### Vite Frontend (Skip for Dev)
+Vite dev server doesn't work well with health checks. Disable in development:
+```yaml
+# healthcheck: disabled for Vite dev server
+```
+
+For production with Nginx:
+```yaml
+healthcheck:
+  test: ["CMD", "wget", "-q", "--spider", "http://localhost/health"]
+  interval: 30s
+  timeout: 10s
+  retries: 3
+```
+
+## CORS Configuration for Traefik
+
+Update CORS origins to include `.localhost` domains:
+```yaml
+environment:
+  - BACKEND_CORS_ORIGINS=http://localhost:5173,http://PROJECTNAME.localhost,http://PROJECTNAME-api.localhost
+```
+
+## Local Working Examples
+
+- `~/terminal_projects/claude_code/cyoa-honky-tonk` - Original stack demo
+- `~/terminal_projects/claude_code/csep_barter_bank` - Traefik-enabled example
