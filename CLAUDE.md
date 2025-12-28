@@ -211,7 +211,9 @@ claude-creative  # Amber terminal - thinking/planning work
 
 ## Repository Structure
 
-This workspace contains 6 independent projects:
+This workspace contains 6 independent projects.
+
+**Port Management**: See `PORT_REGISTRY.md` for centralized port allocation across all projects to prevent conflicts.
 
 ### 1. code_iyeska_net/
 Remote AI coding assistance setup for VS Code Continue extension.
