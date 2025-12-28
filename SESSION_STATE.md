@@ -1,6 +1,6 @@
 # Session State Document
-**Last Updated**: 2025-12-24
-**Session**: Tech Stack Skill Created + Documentation Sync
+**Last Updated**: 2025-12-27
+**Session**: MCP Profiles Re-documented + Memory Server Operational
 
 ---
 
@@ -33,9 +33,49 @@ See `SECURITY_WARNING.md` for complete security audit and next steps.
 
 ---
 
-## 🎯 Current Status: Tech Stack Skill Created (Dec 24, 2025)
+## 🎯 Current Status: MCP Profiles Re-documented (Dec 27, 2025)
 
-### What We Just Accomplished (Dec 24, 2025 Session)
+### What We Just Accomplished (Dec 27, 2025 Session)
+
+1. **Re-discovered MCP Profile System** ✅
+   - User already had profiles set up: `claude-dev`, `claude-infra`, `claude-creative`
+   - These solve context window bloat by loading only needed servers
+   - Documented in CLAUDE.md so future sessions don't forget
+
+2. **Remote Memory Server Operational** ✅
+   - PostgreSQL + pgvector running on 192.168.11.20
+   - Accessible via SSH from all machines over NetBird VPN
+   - Config: Memory MCP connects via `ssh guthdx@192.168.11.20`
+
+3. **YouTube Transcript MCP Added** ✅
+   - Package: `@fabriqa.ai/youtube-transcript-mcp`
+   - For extracting transcripts from YouTube videos
+
+### 🚨 Lesson Learned (Dec 27, 2025)
+
+**Problem**: Claude jumped into building a memory server solution without checking what already existed. User had already solved context bloat with MCP profiles.
+
+**Prevention for Future Sessions**:
+1. **ALWAYS search filesystem first** before proposing new solutions
+2. **ALWAYS check memory** for past decisions
+3. **ALWAYS ask** "what have you already tried?"
+4. Read `.mcp-*.json` files and `~/.zshrc` for existing setups
+
+### MCP Profile Quick Reference
+
+| Command | Use For |
+|---------|---------|
+| `claude-dev` | Coding, GitHub, documentation |
+| `claude-infra` | Cloudflare, Docker, n8n |
+| `claude-creative` | Planning, Obsidian, thinking |
+
+**⚠️ Avoid `claude`** - loads ALL servers, bloats context
+
+---
+
+## 📜 Previous Session: Tech Stack Skill Created (Dec 24, 2025)
+
+### What We Accomplished (Dec 24, 2025 Session)
 
 1. **Created `/tech-stack` Slash Command** ✅
    - Location: `.claude/commands/tech-stack.md`

@@ -168,6 +168,47 @@ All configured and operational. Verify status: `claude mcp list`
 
 **Important**: Always use Python 3.13 for Python projects. System Python 3.10 will fail with version errors.
 
+---
+
+## 🎯 MCP Profiles (IMPORTANT - Use These!)
+
+**Problem**: Loading all 7 MCP servers consumes ~10,000-15,000 tokens of context window just for tool definitions. This leaves less room for actual work.
+
+**Solution**: Use focused profiles that only load the servers you need.
+
+### Available Profiles
+
+| Command | Theme | Servers | Use For |
+|---------|-------|---------|---------|
+| `claude-dev` | Blue | memory, filesystem, github, context7 | Coding, PRs, documentation |
+| `claude-infra` | Green | cloudflare, docker, n8n, memory | Infrastructure, deployments, containers |
+| `claude-creative` | Amber | sequential-thinking, think-strategies, obsidian, memory, filesystem | Planning, ideation, writing |
+
+### How to Use
+
+```bash
+# Source your shell config if commands not found
+source ~/.zshrc
+
+# Then use the appropriate profile:
+claude-dev       # Blue terminal - coding work
+claude-infra     # Green terminal - infrastructure work
+claude-creative  # Amber terminal - thinking/planning work
+```
+
+### Profile Config Files
+
+- `.mcp-dev.json` - Development profile
+- `.mcp-infra.json` - Infrastructure profile
+- `.mcp-creative.json` - Creative/ideation profile
+- `.mcp.json` - Full config (all servers - avoid for normal work)
+
+### ⚠️ Warning
+
+**DO NOT run plain `claude`** for normal work - it loads ALL servers from `.mcp.json` and bloats your context window. Only use it when you specifically need all tools available.
+
+---
+
 ## Repository Structure
 
 This workspace contains 6 independent projects:
